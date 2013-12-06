@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:divider="?android:listDivider"
+    android:showDividers="end">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/leaderboard_pos"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="@string/leaderboard_pos_lbl"
+            android:textStyle="bold"
+            tools:text="1"/>
+
+        <TextView
+            android:id="@+id/leaderboard_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/leaderboard_name_lbl"
+            android:textStyle="bold"
+            tools:text="Matt Kranzler"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="right">
+
+            <TextView
+                android:id="@+id/leaderboard_wins"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/leaderboard_losses"
+                android:gravity="right"
+                android:text="@string/leaderboard_wins_lbl"
+                android:textStyle="bold"
+                tools:text="100"/>
+
+            <TextView
+                android:id="@id/leaderboard_losses"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:text="@string/leaderboard_losses_lbl"
+                android:textStyle="bold"
+                tools:text="50"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

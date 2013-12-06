@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/profile_avatar"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="20dp"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/profile_avatar"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:fontFamily="sans-serif-light"
+                android:textSize="36sp"
+                tools:text="Matt Kranzler" />
+
+        </RelativeLayout>
+
+        <!--<View-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="140dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:background="?android:listDivider" />-->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="?android:listDivider"
+            android:paddingRight="20dp"
+            android:paddingLeft="6dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:id="@+id/profile_matches_lbl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/profile_matches_lbl"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:fontFamily="sans-serif-light" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?android:listDivider" />
+
+                <TextView
+                    android:id="@+id/profile_games_lbl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/profile_games_lbl"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:fontFamily="sans-serif-light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="140dp">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="16dp">
+
+                    <com.echo.holographlibrary.PieGraph
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/profile_matches_graph" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <TextView
+                            android:id="@+id/profile_match_win_perc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textAppearance="?android:textAppearanceLarge"
+                            android:fontFamily="sans-serif-condensed" />
+
+                        <TextView
+                            android:id="@+id/profile_match_wins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="128dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?android:listDivider" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="16dp">
+
+                    <com.echo.holographlibrary.PieGraph
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/profile_games_graph" />
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <TextView
+                            android:id="@+id/profile_game_win_perc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textAppearance="?android:textAppearanceLarge"
+                            android:fontFamily="sans-serif-condensed" />
+
+                        <TextView
+                            android:id="@+id/profile_game_wins"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textAppearance="?android:textAppearanceSmall"
+                            android:fontFamily="sans-serif-light" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textAppearance="?android:textAppearanceMediumInverse"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:background="#222"
+        android:text="@string/profile_match_history_lbl" />
+
+    <include layout="@layout/header_match_history" />
+
+</LinearLayout>

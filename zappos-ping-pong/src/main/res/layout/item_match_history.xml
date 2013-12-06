@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/match_history_date"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        tools:text="12/05/2031"/>
+
+    <TextView
+        android:id="@+id/match_history_opponent"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        tools:text="Matt Kranzler"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="right">
+
+        <TextView
+            android:id="@+id/match_history_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/match_history_score"
+            android:gravity="right"
+            tools:text="W"/>
+
+        <TextView
+            android:id="@id/match_history_score"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:text="@string/leaderboard_losses_lbl"
+            tools:text="3-2"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
