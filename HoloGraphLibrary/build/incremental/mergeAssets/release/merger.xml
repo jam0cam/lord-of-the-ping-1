@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/mattkranzler/Dropbox/Development/projects/android/zappos-ping-pong/HoloGraphLibrary/assets" />
+    </dataSet>
+    <dataSet config="release" >
+        <source path="/Users/mattkranzler/Dropbox/Development/projects/android/zappos-ping-pong/HoloGraphLibrary/src/release/assets" />
+    </dataSet>
+
+</merger>
