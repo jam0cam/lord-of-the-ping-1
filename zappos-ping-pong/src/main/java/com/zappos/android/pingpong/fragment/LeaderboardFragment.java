@@ -98,7 +98,7 @@ public class LeaderboardFragment extends ListFragment implements OnRefreshListen
                 .theseChildrenArePullable(android.R.id.list, R.id.empty)
                 .listener(this)
         .setup(mPullToRefreshLayout);
-
+        setListAdapter(null);
         getListView().addHeaderView(LayoutInflater.from(getActivity()).inflate(R.layout.header_leaderboard, null), null, false);
         getListView().setDrawSelectorOnTop(true);
         getListView().setOnItemClickListener(this);
@@ -129,14 +129,6 @@ public class LeaderboardFragment extends ListFragment implements OnRefreshListen
         super.onDetach();
         mOnPlayerSelectedListener = null;
     }
-
-//    private void setupListView() {
-//        mLeaderboardAdapter = new LeaderboardAdapter(getActivity());
-//        setListAdapter(null);
-//
-//        setListAdapter(mLeaderboardAdapter);
-//        setListShown(false);
-//    }
 
     private void setLoading() {
         Log.d(TAG, "setLoading()");

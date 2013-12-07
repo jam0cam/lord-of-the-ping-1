@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -52,6 +53,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
      */
     ViewPager mViewPager;
 
+    private DrawerLayout mDrawerLayout;
+
     private PingPongApplication mApplication;
 
     @Override
@@ -71,6 +74,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(2);
         setupViewPager();
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+        // TODO
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -207,7 +215,17 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
 
         @Override
         public int getItemPosition(Object object) {
-            return POSITION_NONE;
+            if ((object instanceof ProfileFragment
+                    && mApplication.getCurrentPlayer() == null)
+                    || (object instanceof AuthFragment
+                    && mApplication.getCurrentPlayer() != null)) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .remove((Fragment) object)
+                        .commit();
+                return POSITION_NONE;
+            }
+            return POSITION_UNCHANGED;
         }
 
         @Override
