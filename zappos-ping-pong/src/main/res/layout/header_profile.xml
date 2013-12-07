@@ -37,18 +37,37 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="48dp">
 
-        <TextView
-            android:id="@+id/profile_matches_lbl"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/profile_matches_lbl"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:fontFamily="sans-serif-light" />
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/profile_matches_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="@string/profile_matches_lbl"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:id="@+id/profile_total_matches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="?android:textColorPrimaryInverse"
+                android:fontFamily="sans-serif-condensed"
+                android:background="@drawable/number_background"/>
+
+        </RelativeLayout>
 
         <View
             android:layout_width="1dp"
@@ -56,16 +75,35 @@
             android:layout_gravity="center_vertical"
             android:background="?android:listDivider" />
 
-        <TextView
-            android:id="@+id/profile_games_lbl"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/profile_games_lbl"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:fontFamily="sans-serif-light" />
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/profile_games_lbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/profile_games_lbl"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:fontFamily="sans-serif-condensed" />
+
+            <TextView
+                android:id="@+id/profile_total_games"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="?android:textColorPrimaryInverse"
+                android:fontFamily="sans-serif-condensed"
+                android:background="@drawable/number_background"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -96,6 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="30sp"
                     android:fontFamily="sans-serif-condensed" />
 
                 <TextView
@@ -139,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="30sp"
                     android:fontFamily="sans-serif-condensed" />
 
                 <TextView

@@ -35,4 +35,7 @@ public interface PingPongService {
 
     @POST("/tt/register")
     void register(@Body Player player, Callback<Player> registerCallback);
+
+    @GET("/tt/pending/player/{id}")
+    void getPendingMatches(@Path("id") long playerId, Callback<List<Match>> pendingMatchCallback);
 }

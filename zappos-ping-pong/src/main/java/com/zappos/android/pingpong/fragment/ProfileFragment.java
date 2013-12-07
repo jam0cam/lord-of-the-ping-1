@@ -46,7 +46,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 /**
  * Created by mattkranzler on 12/4/13.
  */
-public class ProfileFragment extends ListFragment implements OnRefreshListener {
+public class ProfileFragment extends PullToRefreshFragment implements OnRefreshListener {
 
     private static final String TAG = ProfileFragment.class.getName();
     private static final String ARG_PLAYER = "player";
@@ -56,15 +56,14 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
 
     private TextView mName;
     private ImageView mAvatar;
-    private TextView mMatchesLbl;
+    private TextView mTotalMatches;
     private PieGraph mMatchesGraph;
     private TextView mMatchWinPerc;
     private TextView mMatchWinsLbl;
-    private TextView mGamesLbl;
+    private TextView mTotalGames;
     private PieGraph mGamesGraph;
     private TextView mGameWinPerc;
     private TextView mGameWinsLbl;
-    private PullToRefreshLayout mPullToRefreshLayout;
 
     private MatchHistoryAdapter mMatchHistoryAdapter;
 
@@ -80,36 +79,14 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mPlayer = (Player) getArguments().getSerializable(ARG_PLAYER);
-
-        // This is the View which is created by ListFragment
-        ViewGroup viewGroup = (ViewGroup) view;
-
-        // We need to create a PullToRefreshLayout manually
-        mPullToRefreshLayout = new PullToRefreshLayout(viewGroup.getContext());
-
-        // We can now setup the PullToRefreshLayout
-        ActionBarPullToRefresh.from(getActivity())
-                .insertLayoutInto(viewGroup)
-                .theseChildrenArePullable(android.R.id.list, android.R.id.empty)
-                .listener(this)
-                .setup(mPullToRefreshLayout);
-
-        getListView().setBackgroundColor(Color.WHITE);
-        getListView().setDrawSelectorOnTop(true);
-        getListView().setHeaderDividersEnabled(false);
-        setupHeader(view.getContext());
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mProfile = (Profile) savedInstanceState.getSerializable(STATE_PROFILE);
         }
+        mPlayer = (Player) getArguments().getSerializable(ARG_PLAYER);
         mApplication = (PingPongApplication) getActivity().getApplication();
+        setupListView();
         mName.setText(mPlayer.getName());
         String avatarUrl;
         if (StringUtils.isNotEmpty(avatarUrl = mPlayer.getAvatarUrl())) {
@@ -117,10 +94,17 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
         }
 
         if (mProfile == null) {
-            refreshProfile();
+            refreshData();
         } else {
             bindProfile();
         }
+    }
+
+    private void setupListView() {
+        getListView().setBackgroundColor(Color.WHITE);
+        getListView().setDrawSelectorOnTop(true);
+        getListView().setHeaderDividersEnabled(false);
+        setupHeader(getActivity());
     }
 
     @Override
@@ -134,20 +118,22 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
         View header = inflater.inflate(R.layout.header_profile, null);
         mName = (TextView) header.findViewById(R.id.profile_name);
         mAvatar = (ImageView) header.findViewById(R.id.profile_avatar);
-        mMatchesLbl = (TextView) header.findViewById(R.id.profile_matches_lbl);
+        mTotalMatches = (TextView) header.findViewById(R.id.profile_total_matches);
         mMatchesGraph = (PieGraph) header.findViewById(R.id.profile_matches_graph);
+        mMatchesGraph.setThickness(20);
         mMatchWinPerc = (TextView) header.findViewById(R.id.profile_match_win_perc);
         mMatchWinsLbl = (TextView) header.findViewById(R.id.profile_match_wins);
-        mGamesLbl = (TextView) header.findViewById(R.id.profile_games_lbl);
+        mTotalGames = (TextView) header.findViewById(R.id.profile_total_games);
         mGamesGraph = (PieGraph) header.findViewById(R.id.profile_games_graph);
+        mGamesGraph.setThickness(20);
         mGameWinPerc = (TextView) header.findViewById(R.id.profile_game_win_perc);
         mGameWinsLbl = (TextView) header.findViewById(R.id.profile_game_wins);
         setListAdapter(null);
         getListView().addHeaderView(header, null, false);
     }
 
-    private void refreshProfile() {
-        setListShown(false);
+    public void refreshData() {
+        super.refreshData();
         mApplication.getPingPongService().getProfile(
                 Long.valueOf(mPlayer.getId()),
                 new Callback<Profile>() {
@@ -170,8 +156,7 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
         bindMatchTotals();
         bindGameTotals();
         bindMatchHistory();
-        setListShown(true);
-        mPullToRefreshLayout.setRefreshComplete();
+        setLoadSuccessful();
     }
 
     private void bindMatchTotals() {
@@ -180,9 +165,7 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
         final int totalMatches = wins + losses;
         final int winPerc = (int)(((double) wins / (double) totalMatches * 100));
 
-        final SpannableStringBuilder matchesBuilder = new SpannableStringBuilder(getResources().getQuantityString(R.plurals.matches, totalMatches, totalMatches));
-        matchesBuilder.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, String.valueOf(totalMatches).length(), 0);
-        mMatchesLbl.setText(matchesBuilder);
+        mTotalMatches.setText(String.valueOf(totalMatches));
         mMatchWinsLbl.setText(getResources().getQuantityString(R.plurals.wins, wins, wins));
 
         // remove all slices
@@ -206,9 +189,7 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
         final int totalGames = wins + losses;
         final int winPerc = (int)(((double) wins / (double) totalGames * 100));
 
-        final SpannableStringBuilder matchesBuilder = new SpannableStringBuilder(getResources().getQuantityString(R.plurals.games, totalGames, totalGames));
-        matchesBuilder.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, String.valueOf(totalGames).length(), 0);
-        mGamesLbl.setText(matchesBuilder);
+        mTotalGames.setText(String.valueOf(totalGames));
         mGameWinsLbl.setText(getResources().getQuantityString(R.plurals.wins, wins, wins));
 
         // remove all slices
@@ -229,12 +210,6 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     private void bindMatchHistory() {
         mMatchHistoryAdapter = new MatchHistoryAdapter(getActivity(), mProfile.getMatches());
         setListAdapter(mMatchHistoryAdapter);
-    }
-
-    @Override
-    public void onRefreshStarted(View view) {
-        setListShown(false);
-        refreshProfile();
     }
 
     private static class MatchHistoryAdapter extends ArrayAdapter<Match> {

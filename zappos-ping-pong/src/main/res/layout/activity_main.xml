@@ -17,10 +17,18 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fragment_inbox"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
-        android:background="?android:windowBackground" />
+        android:background="?android:windowBackground"
+        >
+
+        <fragment
+            android:id="@+id/fragment_inbox"
+            android:name="com.zappos.android.pingpong.fragment.InboxFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
 
 </android.support.v4.widget.DrawerLayout>

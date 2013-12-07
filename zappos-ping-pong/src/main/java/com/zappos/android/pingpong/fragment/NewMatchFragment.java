@@ -106,6 +106,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
 
     private Spinner mWinsSpinner;
     private Spinner mLossesSpinner;
+    private TextView mResult;
     private Button mSubmitBtn;
 
     private ViewGroup mSubmittingCont;
@@ -134,6 +135,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
 
         mWinsSpinner = (Spinner) root.findViewById(R.id.new_match_wins);
         mLossesSpinner = (Spinner) root.findViewById(R.id.new_match_losses);
+        mResult = (TextView) root.findViewById(R.id.new_match_result);
         mSubmitBtn = (Button) root.findViewById(R.id.new_match_submit_btn);
 
         mSubmittingCont = (ViewGroup) root.findViewById(R.id.new_match_submitting_cont);
@@ -198,6 +200,8 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         mWinsSpinner.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.spinner_wins_losses_dropdown_item, WINS_ARRAY));
         mWinsSpinner.setOnItemSelectedListener(this);
 
+        mLossesSpinner.setOnItemSelectedListener(this);
+
         mSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,6 +225,10 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
 
         if (mOpponent != null) {
             bindOpponent();
+        } else {
+
+            // default to win
+            mWinsSpinner.setSelection(3);
         }
 
         mOpponentField.setVisibility(mOpponent != null ? View.GONE : View.VISIBLE);
@@ -264,10 +272,18 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         Match match = new Match();
         match.setP1(mApplication.getCurrentPlayer());
         match.setP2(mOpponent);
-        match.setP1Score(Integer.valueOf(((ArrayAdapter<String>) mWinsSpinner.getAdapter()).getItem(mWinsSpinner.getSelectedItemPosition())));
-        match.setP2Score(Integer.valueOf(((ArrayAdapter<String>) mLossesSpinner.getAdapter()).getItem(mLossesSpinner.getSelectedItemPosition())));
+        match.setP1Score(getTotalWins());
+        match.setP2Score(getTotalLosses());
         match.setDateString(MATCH_DATE_FORMAT.format(new Date()));
         return match;
+    }
+
+    private int getTotalWins() {
+        return Integer.valueOf(((ArrayAdapter<String>) mWinsSpinner.getAdapter()).getItem(mWinsSpinner.getSelectedItemPosition()));
+    }
+
+    private int getTotalLosses() {
+        return Integer.valueOf(((ArrayAdapter<String>) mLossesSpinner.getAdapter()).getItem(mLossesSpinner.getSelectedItemPosition()));
     }
 
     private void saveMatch(Match match) {
@@ -370,13 +386,22 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        mLossesSpinner.setAdapter(
-                new ArrayAdapter<String>(
-                        getActivity(),
-                        R.layout.spinner_wins_losses_dropdown_item,
-                        LOSSES_ARRAYS[Integer.valueOf(WINS_ARRAY[position])]
-                )
-        );
+        if (parent == mWinsSpinner) {
+            mLossesSpinner.setAdapter(
+                    new ArrayAdapter<String>(
+                            getActivity(),
+                            R.layout.spinner_wins_losses_dropdown_item,
+                            LOSSES_ARRAYS[Integer.valueOf(WINS_ARRAY[position])]
+                    )
+            );
+        }
+        updateResult();
+    }
+
+    private void updateResult() {
+        final boolean win = getTotalWins() > getTotalLosses();
+        mResult.setText(win ? "W" : "L");
+        mResult.setBackgroundResource(win ? R.drawable.win_background : R.drawable.loss_background);
     }
 
     @Override

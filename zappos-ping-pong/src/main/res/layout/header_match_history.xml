@@ -13,12 +13,14 @@
         <TextView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textStyle="bold"
             android:text="@string/match_history_date_lbl" />
 
         <TextView
             android:layout_width="160dp"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textStyle="bold"
             android:text="@string/match_history_opponent_lbl" />
 
@@ -33,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="right"
+                android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold"
                 android:text="@string/match_history_result_lbl" />
 

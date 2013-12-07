@@ -59,6 +59,13 @@
     <string name="action_inbox">Inbox</string>
     <string name="action_sign_out">Sign Out</string>
 
+    <!-- Inbox -->
+    <string name="confirm_match">Confirm Match</string>
+    <string name="win_lbl_txt">against %1$s %2$s on %3$s</string>
+    <string name="loss_lbl_txt">to %1$s %2$s on %3$s</string>
+    <string name="inbox_error_txt">We couldn\'t load your inbox at this time!</string>
+    <string name="inbox_empty_txt">You have no messages at this time!</string>
+
     <!-- Plurals -->
     <plurals name="matches">
         <item quantity="one">%d match</item>

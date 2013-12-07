@@ -15,6 +15,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -77,9 +78,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-        // TODO
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
@@ -101,6 +99,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        refreshInboxDrawerState();
     }
 
     @Override
@@ -133,6 +132,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
                 );
     }
 
+    private void refreshInboxDrawerState() {
+        if (mApplication.getCurrentPlayer() != null) {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        } else {
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
@@ -147,11 +154,14 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
             case R.id.action_sign_out:
                 PingPongPreferences.signOut(this);
                 mApplication.setCurrentPlayer(null);
-//                getFragmentManager()
-//                        .beginTransaction()
-//                        .remove(this)
-//                        .commitAllowingStateLoss();
                 EventBus.getDefault().post(new SignedOutEvent());
+                return true;
+            case R.id.action_inbox:
+                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                } else {
+                    mDrawerLayout.openDrawer(Gravity.RIGHT);
+                }
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
@@ -162,6 +172,10 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
         MenuItem logout = menu.findItem(R.id.action_sign_out);
         if (logout != null) {
             logout.setVisible(mApplication.getCurrentPlayer() != null);
+        }
+        MenuItem inbox = menu.findItem(R.id.action_inbox);
+        if (inbox != null) {
+            inbox.setVisible(mApplication.getCurrentPlayer() != null);
         }
         return true;
     }
@@ -255,11 +269,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
             mViewPager.getAdapter().notifyDataSetChanged();
         }
         invalidateOptionsMenu();
+        refreshInboxDrawerState();
     }
 
     @SuppressWarnings("unused")
     public void onEventMainThread(SignedOutEvent event) {
         mViewPager.getAdapter().notifyDataSetChanged();
         invalidateOptionsMenu();
+        refreshInboxDrawerState();
     }
 }

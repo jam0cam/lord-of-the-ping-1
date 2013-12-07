@@ -23,9 +23,14 @@
         <item name="android:editTextBackground">@drawable/lotp_edit_text_holo_light</item>
         <item name="android:listChoiceBackgroundIndicator">@drawable/lotp_list_selector_holo_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/lotp_activated_background_holo_light</item>
+        <item name="android:spinnerStyle">@style/Spinnerlotp</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutocompleteTextViewlotp</item>
 
         <item name="android:listDivider">@drawable/list_divider</item>
-        <item name="android:textColorPrimary">@color/blue</item>
+        <item name="android:textColorPrimary">@color/dark_blue</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <item name="android:textColorSecondary">@color/blue</item>
+        <item name="android:selectableItemBackground">@drawable/lotp_list_selector_holo_light</item>
 
         <item name="ptrHeaderStyle">@style/PullToRefreshStyle</item>
     </style>
@@ -121,6 +126,15 @@
 
     <style name="SpinnerItemlotp" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
         <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="Spinnerlotp" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/lotp_spinner_background_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/lotp_list_selector_holo_light</item>
+    </style>
+
+    <style name="AutocompleteTextViewlotp" parent="@android:Widget.Holo.Light.AutoCompleteTextView">
+        <item name="android:dropDownSelector">@drawable/lotp_list_selector_holo_light</item>
     </style>
 
 </resources>
