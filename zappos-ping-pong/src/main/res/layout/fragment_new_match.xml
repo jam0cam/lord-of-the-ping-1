@@ -15,9 +15,16 @@
             android:layout_height="wrap_content"
             android:padding="20dp">
 
-            <FrameLayout
-                android:layout_width="200dp"
+            <TextView
+                style="@style/SectionHeaderStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/new_match_your_opponent_lbl" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/listPreferredItemHeight"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp">
 
@@ -25,26 +32,31 @@
                     android:id="@+id/new_match_opponent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center_horizontal"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
                     android:completionThreshold="1"
                     android:hint="@string/new_match_opponent_lbl" />
 
+                <include
+                    layout="@layout/new_match_opponent"
+                    android:id="@+id/new_match_confirmed_opponent" />
+
                 <ImageButton
                     android:id="@+id/new_match_clear_opponent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_clear"
                     android:background="?android:selectableItemBackground"
-                    android:layout_marginRight="8dp"
-                    android:layout_gravity="right" />
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
 
-            </FrameLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="40dp">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -54,23 +66,24 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:fontFamily="sans-serif-light"
+                        style="@style/SectionHeaderStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
                         android:text="@string/new_match_your_wins_lbl" />
 
                     <Spinner
                         android:id="@+id/new_match_wins"
-                        android:layout_width="wrap_content"
-                        android:minWidth="50dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal" />
 
                 </LinearLayout>
 
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"/>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -79,19 +92,17 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:textAppearance="?android:textAppearanceLarge"
-                        android:fontFamily="sans-serif-light"
+                        style="@style/SectionHeaderStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
                         android:text="@string/new_match_your_losses_lbl" />
 
                     <Spinner
                         android:id="@+id/new_match_losses"
-                        android:layout_width="wrap_content"
-                        android:minWidth="50dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"/>
 
                 </LinearLayout>
 
@@ -102,6 +113,8 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:background="@drawable/primary_button"
+                android:textColor="@android:color/white"
                 android:text="@string/new_match_submit_btn_lbl" />
 
         </LinearLayout>
@@ -157,7 +170,7 @@
                 android:background="@drawable/primary_button"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/new_match_continue_btn_lbl"/>
+                android:text="@string/new_match_continue_btn_lbl" />
 
         </LinearLayout>
 

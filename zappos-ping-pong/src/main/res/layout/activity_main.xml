@@ -1,6 +1,26 @@
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.zappos.android.pingpong.activity.MainActivity" />
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fragment_cont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.zappos.android.pingpong.activity.MainActivity" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_inbox"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="?android:windowBackground" />
+
+</android.support.v4.widget.DrawerLayout>

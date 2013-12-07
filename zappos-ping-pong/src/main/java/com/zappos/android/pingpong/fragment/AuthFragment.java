@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +18,8 @@ import com.zappos.android.pingpong.R;
 import com.zappos.android.pingpong.event.SignedInEvent;
 import com.zappos.android.pingpong.model.Player;
 import com.zappos.android.pingpong.preference.PingPongPreferences;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.greenrobot.event.EventBus;
 
@@ -63,6 +64,12 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
     private AuthCallbacks mCallbacks;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_auth, container, false);
         mSignInCont = (ViewGroup) root.findViewById(R.id.auth_sign_in_cont);
@@ -104,9 +111,6 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
             }
         }
         addListeners();
-        if (getShowsDialog()) {
-            getDialog().setTitle(R.string.sign_in_or_register_lbl);
-        }
     }
 
     @Override
@@ -182,6 +186,20 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
             @Override
             public void onClick(View v) {
                 dismissKeyboard();
+                final String email = mSignInEmail.getText().toString();
+                final String password = mSignInPassword.getText().toString();
+                if (StringUtils.isEmpty(email)) {
+                    mSignInEmail.setError(getString(R.string.auth_email_invalid));
+                    return;
+                } else {
+                    mSignInEmail.setError(null);
+                }
+                if (StringUtils.isEmpty(password)) {
+                    mSignInPassword.setError(getString(R.string.auth_password_invalid));
+                    return;
+                } else {
+                    mSignInPassword.setError(null);
+                }
                 mSignInCont
                         .animate()
                         .alpha(0)
@@ -205,7 +223,7 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
 
                                                             @Override
                                                             public void onAnimationEnd(Animator animation) {
-                                                                SignInFragment fragment = SignInFragment.newInstance(mSignInEmail.getText().toString(), mSignInPassword.getText().toString());
+                                                                SignInFragment fragment = SignInFragment.newInstance(email, password);
                                                                 fragment.setSignInCallbacks(AuthFragment.this);
                                                                 getFragmentManager()
                                                                         .beginTransaction()
@@ -324,7 +342,7 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
     }
 
     private void authFailed(final boolean isRegistration, final String error) {
-        final ViewGroup authCont = (isRegistration ? mFailureCont : mSignInCont);
+        final ViewGroup authCont = (isRegistration ? mRegisterCont : mSignInCont);
         mDoingStuffCont
                 .animate()
                 .alpha(0)

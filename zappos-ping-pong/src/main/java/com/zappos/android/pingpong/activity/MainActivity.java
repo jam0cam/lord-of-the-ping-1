@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -25,11 +26,12 @@ import com.zappos.android.pingpong.fragment.AuthFragment;
 import com.zappos.android.pingpong.fragment.LeaderboardFragment;
 import com.zappos.android.pingpong.fragment.NewMatchFragment;
 import com.zappos.android.pingpong.fragment.ProfileFragment;
+import com.zappos.android.pingpong.model.Player;
 import com.zappos.android.pingpong.preference.PingPongPreferences;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends Activity implements ActionBar.TabListener {
+public class MainActivity extends Activity implements ActionBar.TabListener, LeaderboardFragment.OnPlayerSelectedListener {
 
     public static final int TAB_LEADERBOARD = 0;
     public static final int TAB_NEW_MATCH = 1;
@@ -63,6 +65,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setTitle(null);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setOffscreenPageLimit(2);
@@ -125,13 +129,33 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_sign_out:
+                PingPongPreferences.signOut(this);
+                mApplication.setCurrentPlayer(null);
+//                getFragmentManager()
+//                        .beginTransaction()
+//                        .remove(this)
+//                        .commitAllowingStateLoss();
+                EventBus.getDefault().post(new SignedOutEvent());
+                return true;
+            default: return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem logout = menu.findItem(R.id.action_sign_out);
+        if (logout != null) {
+            logout.setVisible(mApplication.getCurrentPlayer() != null);
+        }
+        return true;
     }
 
     @Override
@@ -147,6 +171,11 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onPlayerSelected(Player player) {
+        startActivity(new Intent(this, ProfileActivity.class).putExtra(ProfileActivity.EXTRA_PLAYER, player));
     }
 
     /**
@@ -170,7 +199,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                     if (mApplication.getCurrentPlayer() == null) {
                         return new AuthFragment();
                     } else {
-                        return ProfileFragment.newInstance(Long.valueOf(mApplication.getCurrentPlayer().getId()));
+                        return ProfileFragment.newInstance(mApplication.getCurrentPlayer());
                     }
             }
             return null;
@@ -207,10 +236,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         if (event.getPlayer() != null) {
             mViewPager.getAdapter().notifyDataSetChanged();
         }
+        invalidateOptionsMenu();
     }
 
     @SuppressWarnings("unused")
     public void onEventMainThread(SignedOutEvent event) {
         mViewPager.getAdapter().notifyDataSetChanged();
+        invalidateOptionsMenu();
     }
 }

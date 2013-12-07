@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/empty"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/try_again_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:paddingTop="4dip" />
+
+    <Button
+        android:id="@+id/try_again_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/primary_button"
+        android:textColor="@android:color/white"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/try_again_btn_lbl" />
+
+</LinearLayout>

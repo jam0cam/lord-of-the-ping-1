@@ -1,25 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Zappos Ping Pong</string>
+    <string name="app_name">Lord of the Ping</string>
     <string name="title_leaderboard">Leaderboard</string>
     <string name="title_new_match">New Match</string>
     <string name="title_profile">Profile</string>
 
+    <string name="loading">Loading…</string>
+
+    <!-- Leaderboard -->
+    <string name="leaderboard_error">We were unable to load the leaderboard at this time!</string>
+
     <!-- Leaderboard Items -->
     <string name="leaderboard_pos_lbl">#</string>
-    <string name="leaderboard_name_lbl">Name</string>
+    <string name="leaderboard_name_lbl">Player</string>
     <string name="leaderboard_wins_lbl">W</string>
     <string name="leaderboard_losses_lbl">L</string>
 
     <!-- New Match -->
-    <string name="new_match_opponent_lbl">Find opponent…</string>
-    <string name="new_match_your_wins_lbl">Your Wins</string>
-    <string name="new_match_your_losses_lbl">Your Losses</string>
+    <string name="new_match_opponent_lbl">Type their name or email…</string>
+    <string name="new_match_your_wins_lbl">Games You Won</string>
+    <string name="new_match_your_losses_lbl">Games You Lost</string>
+    <string name="new_match_your_opponent_lbl">Who did you play?</string>
     <string name="new_match_submit_btn_lbl">Submit</string>
     <string name="new_match_submitting_lbl">Submitting match…</string>
     <string name="new_match_match_submitted_lbl">Your match has been sent to %s for confirmation!</string>
     <string name="new_match_match_submission_failed_lbl">We\'re sorry! We weren\'t able to submit your match at this time. Please try again later!</string>
+    <string name="new_match_submission_failed_same_player">Quit playing with yourself…</string>
     <string name="new_match_continue_btn_lbl">Continue</string>
 
     <!-- Profile -->
@@ -46,9 +53,10 @@
     <string name="auth_registering_lbl">Registering…</string>
     <string name="sign_in_error">We were unable to sign you in. Your email address or password may be invalid.</string>
     <string name="registration_error">We were unable to register you. The email address may already be in use.</string>
-    <string name="auth_try_again_btn">Try Again</string>
+    <string name="try_again_btn_lbl">Try Again</string>
 
     <!-- Menu -->
+    <string name="action_inbox">Inbox</string>
     <string name="action_sign_out">Sign Out</string>
 
     <!-- Plurals -->

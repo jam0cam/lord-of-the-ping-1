@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="6dp"
+    android:background="@drawable/border_background">
+
+    <ImageView
+        android:id="@+id/opponent_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default"/>
+
+    <TextView
+        android:id="@+id/opponent_name"
+        style="?android:attr/dropDownItemStyle"
+        android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/opponent_avatar"
+        android:layout_alignTop="@id/opponent_avatar"
+        android:fontFamily="sans-serif-condensed"
+        tools:text="Matt Kranzler"/>
+
+    <TextView
+        android:id="@+id/opponent_email"
+        style="?android:attr/dropDownItemStyle"
+        android:textAppearance="?android:attr/textAppearanceSmallPopupMenu"
+        android:textColor="#323232"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/opponent_name"
+        android:layout_toRightOf="@id/opponent_avatar"
+        android:layout_alignStart="@id/opponent_name"
+        android:fontFamily="sans-serif-light"
+        tools:text="mkranzler@zappos.com"/>
+
+</RelativeLayout>

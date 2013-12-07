@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:divider="?android:listDivider"
-    android:showDividers="end">
+    android:orientation="vertical">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -15,10 +13,9 @@
 
         <TextView
             android:id="@+id/leaderboard_pos"
-            android:layout_width="30dp"
+            android:layout_width="36dp"
             android:layout_height="wrap_content"
-            android:text="@string/leaderboard_pos_lbl"
-            android:textStyle="bold"
+            android:text=""
             tools:text="1"/>
 
         <TextView
@@ -58,5 +55,10 @@
         </RelativeLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/header_divider"/>
 
 </LinearLayout>

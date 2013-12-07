@@ -16,13 +16,17 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zappos.android.pingpong.PingPongApplication;
 import com.zappos.android.pingpong.R;
 import com.zappos.android.pingpong.model.Match;
 import com.zappos.android.pingpong.model.Player;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,6 +45,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
 
     private static final String TAG = NewMatchFragment.class.getName();
     private static final String STATE_OPPONENT = "opponent";
+    private static final String STATE_OPPONENTS = "opponents";
     private static final DateFormat MATCH_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
     private static final String[] WINS_ARRAY = {
@@ -94,6 +99,11 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     private ViewGroup mNewMatchCont;
     private AutoCompleteTextView mOpponentField;
     private ImageButton mClearOpponentBtn;
+    private ViewGroup mConfirmedOpponentCont;
+    private ImageView mConfirmedOpponentAvatar;
+    private TextView mConfirmedOpponentName;
+    private TextView mConfirmedOpponentEmail;
+
     private Spinner mWinsSpinner;
     private Spinner mLossesSpinner;
     private Button mSubmitBtn;
@@ -105,7 +115,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     private Button mSubmissionContinueBtn;
 
     private OpponentAutoCompleteAdapter mOpponentAutoCompleteAdapter;
-    private List<Player> mOpponents;
+    private ArrayList<Player> mOpponents;
 
     private PingPongApplication mApplication;
     private Player mOpponent;
@@ -117,6 +127,11 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         mNewMatchCont = (ViewGroup) root.findViewById(R.id.new_match_cont);
         mOpponentField = (AutoCompleteTextView) root.findViewById(R.id.new_match_opponent);
         mClearOpponentBtn = (ImageButton) root.findViewById(R.id.new_match_clear_opponent);
+        mConfirmedOpponentCont = (ViewGroup) root.findViewById(R.id.new_match_confirmed_opponent);
+        mConfirmedOpponentAvatar = (ImageView) root.findViewById(R.id.opponent_avatar);
+        mConfirmedOpponentName = (TextView) root.findViewById(R.id.opponent_name);
+        mConfirmedOpponentEmail = (TextView) root.findViewById(R.id.opponent_email);
+
         mWinsSpinner = (Spinner) root.findViewById(R.id.new_match_wins);
         mLossesSpinner = (Spinner) root.findViewById(R.id.new_match_losses);
         mSubmitBtn = (Button) root.findViewById(R.id.new_match_submit_btn);
@@ -134,6 +149,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mOpponent = (Player) savedInstanceState.getSerializable(STATE_OPPONENT);
+            mOpponents = (ArrayList<Player>) savedInstanceState.getSerializable(STATE_OPPONENTS);
         }
         mApplication = (PingPongApplication) getActivity().getApplication();
 
@@ -156,12 +172,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
                         @Override
                         public void success(List<Player> players, Response response) {
                             Log.d(TAG, "Received a list of opponents!");
-                            mOpponents = players;
-
-                            // remove current player if we have one
-                            if (mApplication.getCurrentPlayer() != null) {
-                                mOpponents.remove(mApplication.getCurrentPlayer());
-                            }
+                            mOpponents = new ArrayList<Player>(players);
                             mOpponentAutoCompleteAdapter.setOpponents(mOpponents);
                             mOpponentAutoCompleteAdapter.notifyDataSetChanged();
                         }
@@ -180,10 +191,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         mClearOpponentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOpponent = null;
-                mOpponentField.setText(null);
-                updateOpponentState();
-                updateWinsSpinnerState();
+                clearOpponent();
             }
         });
 
@@ -210,6 +218,13 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
                 }
             }
         });
+
+        if (mOpponent != null) {
+            bindOpponent();
+        }
+
+        mOpponentField.setVisibility(mOpponent != null ? View.GONE : View.VISIBLE);
+        mConfirmedOpponentCont.setVisibility(mOpponent != null ? View.VISIBLE : View.GONE);
 
         updateOpponentState();
         updateWinsSpinnerState();
@@ -277,13 +292,59 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         updateSubmitBtnState();
     }
 
-    private void updateOpponentState() {
-        mOpponentField.setEnabled(!isValidOpponent());
-        updateClearOpponentBtnState();
+    private void updateConfirmedOpponent() {
+        mOpponentField
+                .animate()
+                .alpha(0)
+                .setListener(
+                        new AnimatorListenerAdapter() {
+
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                mConfirmedOpponentCont.setAlpha(0);
+                                bindOpponent();
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mOpponentField.setVisibility(View.GONE);
+                                mConfirmedOpponentCont.setVisibility(View.VISIBLE);
+                                mConfirmedOpponentCont
+                                        .animate()
+                                        .alpha(1)
+                                        .setListener(
+                                                new AnimatorListenerAdapter() {
+
+                                                    @Override
+                                                    public void onAnimationEnd(Animator animation) {
+                                                        mClearOpponentBtn.setVisibility(View.VISIBLE);
+                                                    }
+                                                }
+                                        )
+                                        .start();
+                            }
+                        }
+                )
+                .start();
     }
 
-    private void updateClearOpponentBtnState() {
-        mClearOpponentBtn.setVisibility(mOpponentField.isEnabled() ? View.GONE : View.VISIBLE);
+    private void bindOpponent() {
+        if (mOpponent != null) {
+            Picasso.with(getActivity())
+                    .load(mOpponent.getAvatarUrl())
+                    .into(mConfirmedOpponentAvatar);
+            mConfirmedOpponentName.setText(mOpponent.getName());
+            mConfirmedOpponentEmail.setText(mOpponent.getEmail());
+            mClearOpponentBtn.setVisibility(View.VISIBLE);
+        } else {
+            mOpponentField.setVisibility(View.VISIBLE);
+            mConfirmedOpponentCont.setVisibility(View.GONE);
+            mClearOpponentBtn.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateOpponentState() {
+        mOpponentField.setEnabled(!isValidOpponent());
     }
 
     private void updateLossesSpinnerState() {
@@ -302,6 +363,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mOpponent = mOpponentAutoCompleteAdapter.getItem(position);
         Log.d(TAG, "Selected player " + mOpponent + " as opponent");
+        updateConfirmedOpponent();
         updateOpponentState();
         updateWinsSpinnerState();
     }
@@ -399,8 +461,39 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     private void continueWithSuccess() {
+        clearOpponent();
+    }
+
+    private void clearOpponent() {
         mOpponent = null;
         mOpponentField.setText(null);
+        mConfirmedOpponentCont
+                .animate()
+                .alpha(0)
+                .setListener(
+                        new AnimatorListenerAdapter() {
+
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                                mClearOpponentBtn.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mConfirmedOpponentAvatar.setImageDrawable(null);
+                                mConfirmedOpponentName.setText(null);
+                                mConfirmedOpponentEmail.setText(null);
+                                mConfirmedOpponentCont.setVisibility(View.GONE);
+                                mOpponentField.setVisibility(View.VISIBLE);
+                                mOpponentField
+                                        .animate()
+                                        .alpha(1)
+                                        .setListener(null)
+                                        .start();
+                            }
+                        }
+                )
+                .start();
         updateOpponentState();
         updateWinsSpinnerState();
     }
@@ -412,8 +505,28 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     @Override
     public void playerSignedIn(Player player) {
         if (mPendingMatch != null) {
-            mPendingMatch.setP1(player);
-            submitMatch(mPendingMatch);
+            if (player.equals(mPendingMatch.getP2())) {
+                mNewMatchCont
+                        .animate()
+                        .alpha(0)
+                        .setListener(
+                                new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        showResultCont(getString(R.string.new_match_submission_failed_same_player), false);
+
+                                        mOpponent = null;
+                                        mOpponentField.setText(null);
+                                        updateOpponentState();
+                                        bindOpponent();
+                                    }
+                                }
+                        )
+                        .start();
+            } else {
+                mPendingMatch.setP1(player);
+                submitMatch(mPendingMatch);
+            }
         }
     }
 
@@ -423,12 +536,12 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     }
 
     private static class OpponentAutoCompleteAdapter extends ArrayAdapter<Player> implements Filterable {
-
+        private static final int LAYOUT_RES_ID = R.layout.item_opponent;
         private LayoutInflater mInflater;
         private List<Player> mOpponents;
 
         public OpponentAutoCompleteAdapter(Context context, List<Player> opponents) {
-            super(context, android.R.layout.simple_dropdown_item_1line, opponents);
+            super(context, LAYOUT_RES_ID, opponents);
             mOpponents = opponents;
             mInflater = LayoutInflater.from(context);
         }
@@ -439,15 +552,20 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            final TextView tv;
-            if (convertView != null) {
-                tv = (TextView) convertView;
-            } else {
-                tv = (TextView) mInflater.inflate(android.R.layout.simple_dropdown_item_1line, parent, false);
+            if (convertView == null) {
+                convertView = mInflater.inflate(LAYOUT_RES_ID, parent, false);
             }
+            ImageView avatar = (ImageView) convertView.findViewById(R.id.opponent_avatar);
+            TextView name = (TextView) convertView.findViewById(R.id.opponent_name);
+            TextView email = (TextView) convertView.findViewById(R.id.opponent_email);
 
-            tv.setText(getItem(position).getName());
-            return tv;
+            final Player opponent = getItem(position);
+            if (StringUtils.isNotEmpty(opponent.getAvatarUrl())) {
+                Picasso.with(getContext()).load(opponent.getAvatarUrl()).into(avatar);
+            }
+            name.setText(opponent.getName());
+            email.setText(opponent.getEmail());
+            return convertView;
         }
 
         @Override
@@ -457,8 +575,13 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
                 protected FilterResults performFiltering(final CharSequence constraint) {
                     final FilterResults filterResults = new FilterResults();
                     List<Player> filteredPlayers = new ArrayList<Player>();
+                    final Player currentPlayer = ((PingPongApplication)getContext().getApplicationContext()).getCurrentPlayer();
                     for (Player player : mOpponents) {
-                        if (constraint == null || player.getName().toUpperCase().startsWith(constraint.toString().toUpperCase())) {
+                        if (currentPlayer != null && currentPlayer.equals(player)) {
+                            continue;
+                        }
+                        if (constraint == null || player.getName().toUpperCase().startsWith(constraint.toString().toUpperCase())
+                                || player.getEmail().toUpperCase().contains(constraint.toString().toUpperCase())) {
                             filteredPlayers.add(player);
                         }
                     }

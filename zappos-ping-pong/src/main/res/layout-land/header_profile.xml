@@ -23,6 +23,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="20dp"
+                android:src="@drawable/avatar_default"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -36,12 +37,6 @@
                 tools:text="Matt Kranzler" />
 
         </RelativeLayout>
-
-        <!--<View-->
-            <!--android:layout_width="1dp"-->
-            <!--android:layout_height="140dp"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:background="?android:listDivider" />-->
 
         <LinearLayout
             android:layout_width="0dp"
@@ -178,13 +173,13 @@
     </LinearLayout>
 
     <TextView
+        android:textAppearance="?android:textAppearanceMedium"
+        style="?android:actionBarTabTextStyle"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:textAppearance="?android:textAppearanceMediumInverse"
-        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:background="#222"
-        android:text="@string/profile_match_history_lbl" />
+        android:background="@color/blue"
+        android:text="@string/profile_match_history_lbl"/>
 
     <include layout="@layout/header_match_history" />
 

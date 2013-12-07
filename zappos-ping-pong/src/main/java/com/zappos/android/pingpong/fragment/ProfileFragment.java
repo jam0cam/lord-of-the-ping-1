@@ -2,6 +2,7 @@ package com.zappos.android.pingpong.fragment;
 
 import android.app.ListFragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.style.TypefaceSpan;
@@ -23,11 +24,15 @@ import com.zappos.android.pingpong.PingPongApplication;
 import com.zappos.android.pingpong.R;
 import com.zappos.android.pingpong.event.SignedOutEvent;
 import com.zappos.android.pingpong.model.Match;
+import com.zappos.android.pingpong.model.Player;
 import com.zappos.android.pingpong.model.Profile;
 import com.zappos.android.pingpong.preference.PingPongPreferences;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -44,7 +49,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 public class ProfileFragment extends ListFragment implements OnRefreshListener {
 
     private static final String TAG = ProfileFragment.class.getName();
-    private static final String ARG_PLAYER_ID = "playerId";
+    private static final String ARG_PLAYER = "player";
     private static final String STATE_PROFILE = "profile";
 
     private PingPongApplication mApplication;
@@ -64,11 +69,11 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     private MatchHistoryAdapter mMatchHistoryAdapter;
 
     private Profile mProfile;
-    private long mPlayerId = 2; // TODO
+    private Player mPlayer;
 
-    public static ProfileFragment newInstance(long playerId) {
+    public static ProfileFragment newInstance(Player player) {
         Bundle args = new Bundle();
-        args.putLong(ARG_PLAYER_ID, playerId);
+        args.putSerializable(ARG_PLAYER, player);
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
@@ -77,7 +82,7 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPlayerId = getArguments().getLong(ARG_PLAYER_ID);
+        mPlayer = (Player) getArguments().getSerializable(ARG_PLAYER);
 
         // This is the View which is created by ListFragment
         ViewGroup viewGroup = (ViewGroup) view;
@@ -92,23 +97,23 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
                 .listener(this)
                 .setup(mPullToRefreshLayout);
 
+        getListView().setBackgroundColor(Color.WHITE);
+        getListView().setDrawSelectorOnTop(true);
+        getListView().setHeaderDividersEnabled(false);
         setupHeader(view.getContext());
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setHasOptionsMenu(true);
         if (savedInstanceState != null) {
             mProfile = (Profile) savedInstanceState.getSerializable(STATE_PROFILE);
         }
         mApplication = (PingPongApplication) getActivity().getApplication();
-        if (mApplication.getCurrentPlayer() != null) {
-            mName.setText(mApplication.getCurrentPlayer().getName());
-            String avatarUrl;
-            if (StringUtils.isNotEmpty(avatarUrl = mApplication.getCurrentPlayer().getAvatarUrl())) {
-                Picasso.with(getActivity()).load(avatarUrl).into(mAvatar);
-            }
+        mName.setText(mPlayer.getName());
+        String avatarUrl;
+        if (StringUtils.isNotEmpty(avatarUrl = mPlayer.getAvatarUrl())) {
+            Picasso.with(getActivity()).load(avatarUrl).into(mAvatar);
         }
 
         if (mProfile == null) {
@@ -122,38 +127,6 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(STATE_PROFILE, mProfile);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_profile, menu);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-        MenuItem logout = menu.findItem(R.id.action_sign_out);
-        if (logout != null) {
-            logout.setVisible(mApplication.getCurrentPlayer() != null
-                    && mPlayerId == Long.valueOf(mApplication.getCurrentPlayer().getId()));
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_sign_out:
-                PingPongPreferences.signOut(getActivity());
-                mApplication.setCurrentPlayer(null);
-                getFragmentManager()
-                        .beginTransaction()
-                        .remove(this)
-                        .commitAllowingStateLoss();
-                EventBus.getDefault().post(new SignedOutEvent());
-                return true;
-            default: return super.onOptionsItemSelected(item);
-        }
     }
 
     private void setupHeader(Context context) {
@@ -174,8 +147,9 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     }
 
     private void refreshProfile() {
+        setListShown(false);
         mApplication.getPingPongService().getProfile(
-                mPlayerId,
+                Long.valueOf(mPlayer.getId()),
                 new Callback<Profile>() {
                     @Override
                     public void success(Profile profile, Response response) {
@@ -266,12 +240,15 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
     private static class MatchHistoryAdapter extends ArrayAdapter<Match> {
 
         private static final int LAYOUT_RES_ID = R.layout.item_match_history;
+        private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd");
 
         private LayoutInflater mInflater;
+        private int mOddBackgroundColor;
 
         public MatchHistoryAdapter(Context context, List<Match> matches) {
             super(context, LAYOUT_RES_ID, matches);
             mInflater = LayoutInflater.from(context);
+            mOddBackgroundColor = context.getResources().getColor(R.color.gray);
         }
 
         @Override
@@ -280,15 +257,25 @@ public class ProfileFragment extends ListFragment implements OnRefreshListener {
                 convertView = mInflater.inflate(LAYOUT_RES_ID, null);
             }
             TextView date = (TextView) convertView.findViewById(R.id.match_history_date);
+            ImageView avatar = (ImageView) convertView.findViewById(R.id.match_history_avatar);
             TextView opponent = (TextView) convertView.findViewById(R.id.match_history_opponent);
             TextView result = (TextView) convertView.findViewById(R.id.match_history_result);
             TextView score = (TextView) convertView.findViewById(R.id.match_history_score);
 
             Match item = getItem(position);
-            date.setText(item.getDateString());
+            if (StringUtils.isNotEmpty(item.getP2().getAvatarUrl())) {
+                Picasso.with(getContext()).load(item.getP2().getAvatarUrl()).into(avatar);
+            } else {
+                avatar.setImageResource(R.drawable.avatar_default);
+            }
+            date.setText(DATE_FORMAT.format(new Date(item.getDate())));
             opponent.setText(item.getP2().getName());
-            result.setText(item.getP1Score() > item.getP2Score() ? "W" : "L");
+            final boolean win = item.getP1Score() > item.getP2Score();
+            result.setText(win ? "W" : "L");
+            result.setBackgroundResource(win ? R.drawable.win_background : R.drawable.loss_background);
             score.setText(item.getP1Score() + "-" + item.getP2Score());
+
+            convertView.setBackgroundColor((position % 2 == 0 ? Color.TRANSPARENT : mOddBackgroundColor));
 
             return convertView;
         }

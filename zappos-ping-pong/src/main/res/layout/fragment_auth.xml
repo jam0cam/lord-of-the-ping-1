@@ -5,8 +5,10 @@
     android:fillViewport="true">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:minWidth="300dp">
 
         <LinearLayout
             android:id="@+id/auth_sign_in_cont"
@@ -93,6 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/register_lbl"
+                android:textColor="@android:color/white"
                 android:background="@drawable/secondary_button"/>
 
         </LinearLayout>
@@ -173,6 +176,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/auth_or_lbl"
+                    android:fontFamily="sans-serif-condensed"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"/>
 
@@ -191,6 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_in_lbl"
+                android:textColor="@android:color/white"
                 android:background="@drawable/secondary_button"/>
 
         </LinearLayout>
@@ -247,7 +252,7 @@
                 android:background="@drawable/primary_button"
                 android:textColor="@android:color/white"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/auth_try_again_btn"/>
+                android:text="@string/try_again_btn_lbl"/>
 
         </LinearLayout>
 

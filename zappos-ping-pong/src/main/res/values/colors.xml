@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green">#46BFBD</color>
+    <color name="green">#1ABC9C</color>
     <color name="red">#F7464A</color>
+    <color name="blue">#34495E</color>
+    <color name="dark_blue">#2C3E50</color>
+    <color name="pressed_lotp">#CC1ABC9C</color>
+    <color name="silver">#BDC3C7</color>
+    <color name="gray">#eeeeee</color>
+    <color name="dark_gray">#bbbbbb</color>
+    <color name="darker_gray">#999999</color>
+
 </resources>
