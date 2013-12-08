@@ -2,6 +2,8 @@ package com.zappos.android.pingpong.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +13,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zappos.android.pingpong.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
@@ -85,90 +90,157 @@ public abstract class PullToRefreshFragment extends ListFragment implements OnRe
     }
 
     protected void setLoading() {
-        final View viewToFadeOut = getListView().getVisibility() == View.VISIBLE ? getListView()
-                : mTryAgainCont.getVisibility() == View.VISIBLE ? mTryAgainCont : mEmptyCont;
-        viewToFadeOut
-                .animate()
-                .alpha(0)
-                .setListener(new AnimatorListenerAdapter() {
+        AnimatorSet set = new AnimatorSet();
+        List<Animator> fadeOut = new ArrayList<Animator>();
+        if (View.VISIBLE == mTryAgainCont.getVisibility()) {
+            fadeOut.add(fadeOutTryAgainCont());
+        }
+        if (View.VISIBLE == mEmptyCont.getVisibility()) {
+            fadeOut.add(fadeOutEmptyCont());
+        }
+        if (View.VISIBLE == getListView().getVisibility()) {
+            fadeOut.add(fadeOutListView());
+        }
+        set.addListener(
+                new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        viewToFadeOut.setVisibility(View.GONE);
-                        mProgressCont.setVisibility(View.VISIBLE);
-                        mProgressCont
-                                .animate()
-                                .alpha(1)
-                                .setListener(null)
-                                .start();
+                        fadeInTryProgressCont().start();
                     }
-                })
-                .start();
+                }
+        );
+        set.playTogether(fadeOut);
+        set.start();
     }
 
     protected void setLoadSuccessful() {
         mPullToRefreshLayout.setRefreshComplete();
-        final View viewToFadeOut = mProgressCont.getVisibility() == View.VISIBLE ? mProgressCont
-                : mEmptyCont;
-        viewToFadeOut
-                .animate()
-                .alpha(0)
-                .setListener(
-                        new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                viewToFadeOut.setVisibility(View.GONE);
-                                getListView().setVisibility(View.VISIBLE);
-                                getListView()
-                                        .animate()
-                                        .alpha(1)
-                                        .setListener(null)
-                                        .start();
-                            }
-                        }
-                )
-                .start();
+        AnimatorSet set = new AnimatorSet();
+        List<Animator> fadeOut = new ArrayList<Animator>();
+        if (View.VISIBLE == mProgressCont.getVisibility()) {
+            fadeOut.add(fadeOutProgressCont());
+        }
+        if (View.VISIBLE == mTryAgainCont.getVisibility()) {
+            fadeOut.add(fadeOutTryAgainCont());
+        }
+        if (View.VISIBLE == mEmptyCont.getVisibility()) {
+            fadeOut.add(fadeOutEmptyCont());
+        }
+        set.addListener(
+                new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        fadeInListView().start();
+                    }
+                }
+        );
+        set.playTogether(fadeOut);
+        set.start();
     }
 
     protected void setLoadUnsuccessful() {
         mPullToRefreshLayout.setRefreshComplete();
-        mProgressCont
-                .animate()
-                .alpha(0)
-                .setListener(
-                        new AnimatorListenerAdapter() {
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                mProgressCont.setVisibility(View.GONE);
-                                mTryAgainCont.setVisibility(View.VISIBLE);
-                                mTryAgainCont
-                                        .animate()
-                                        .alpha(1)
-                                        .setListener(null)
-                                        .start();
-                            }
-                        }
-                )
-                .start();
+        AnimatorSet set = new AnimatorSet();
+        List<Animator> fadeOut = new ArrayList<Animator>();
+        if (View.VISIBLE == mProgressCont.getVisibility()) {
+            fadeOut.add(fadeOutProgressCont());
+        }
+        if (View.VISIBLE == getListView().getVisibility()) {
+            fadeOut.add(fadeOutListView());
+        }
+        if (View.VISIBLE == mEmptyCont.getVisibility()) {
+            fadeOut.add(fadeOutEmptyCont());
+        }
+        set.addListener(
+                new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        fadeInTryAgainCont().start();
+                    }
+                }
+        );
+        set.playTogether(fadeOut);
+        set.start();
     }
 
     protected void setNoItems() {
         mPullToRefreshLayout.setRefreshComplete();
-        mProgressCont
-                .animate()
-                .alpha(0)
-                .setListener(new AnimatorListenerAdapter() {
+        AnimatorSet set = new AnimatorSet();
+        List<Animator> fadeOut = new ArrayList<Animator>();
+        if (View.VISIBLE == mProgressCont.getVisibility()) {
+            fadeOut.add(fadeOutProgressCont());
+        }
+        if (View.VISIBLE == getListView().getVisibility()) {
+            fadeOut.add(fadeOutListView());
+        }
+        if (View.VISIBLE == mEmptyCont.getVisibility()) {
+            fadeOut.add(fadeOutEmptyCont());
+        }
+        set.addListener(
+                new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        mProgressCont.setVisibility(View.GONE);
-                        mEmptyCont.setVisibility(View.VISIBLE);
-                        mEmptyCont
-                                .animate()
-                                .alpha(1)
-                                .setListener(null)
-                                .start();
+                        fadeInEmptyCont().start();
                     }
-                })
-                .start();
+                }
+        );
+        set.playTogether(fadeOut);
+        set.start();
+    }
+
+    private Animator fadeOutTryAgainCont() {
+        return fadeOutView(mTryAgainCont);
+    }
+
+    private Animator fadeInTryAgainCont() {
+        return fadeInView(mTryAgainCont);
+    }
+
+    private Animator fadeOutEmptyCont() {
+        return fadeOutView(mEmptyCont);
+    }
+
+    private Animator fadeInEmptyCont() {
+        return fadeInView(mEmptyCont);
+    }
+
+    private Animator fadeOutListView() {
+        return fadeOutView(getListView());
+    }
+
+    private Animator fadeInListView() {
+        return fadeInView(getListView());
+    }
+
+    private Animator fadeOutProgressCont() {
+        return fadeOutView(mProgressCont);
+    }
+
+    private Animator fadeInTryProgressCont() {
+        return fadeInView(mProgressCont);
+    }
+
+    private Animator fadeOutView(final View view) {
+        Animator fadeOut = ObjectAnimator.ofFloat(view, "alpha", 0);
+        fadeOut.addListener(
+                new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        view.setVisibility(View.GONE);
+                    }
+                }
+        );
+        return fadeOut;
+    }
+
+    private Animator fadeInView(final View view) {
+        Animator fadeIn = ObjectAnimator.ofFloat(view, "alpha", 1);
+        fadeIn.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+        });
+        return fadeIn;
     }
 }

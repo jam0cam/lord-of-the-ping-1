@@ -32,6 +32,8 @@
         <item name="android:textColorSecondary">@color/blue</item>
         <item name="android:selectableItemBackground">@drawable/lotp_list_selector_holo_light</item>
 
+        <item name="listSelector">@drawable/lotp_list_selector_holo_light</item>
+        <item name="listSelectorPressed">@drawable/lotp_list_pressed_holo_light</item>
         <item name="ptrHeaderStyle">@style/PullToRefreshStyle</item>
     </style>
 

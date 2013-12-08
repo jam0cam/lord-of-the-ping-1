@@ -2,7 +2,12 @@ package com.zappos.android.pingpong.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +27,7 @@ import com.zappos.android.pingpong.event.SignedOutEvent;
 import com.zappos.android.pingpong.model.Match;
 import com.zappos.android.pingpong.model.MatchConfirmationResponse;
 import com.zappos.android.pingpong.service.PingPongService;
+import com.zappos.android.pingpong.view.InboxActionView;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -38,13 +44,22 @@ import retrofit.client.Response;
 /**
  * Created by mattkranzler on 12/7/13.
  */
-public class InboxFragment extends SwipeListViewPullToRefreshFragment implements AdapterView.OnItemClickListener, SwipeListViewListener {
+public class InboxFragment extends SwipeListViewPullToRefreshFragment implements AdapterView.OnItemClickListener, SwipeListViewListener,
+        DrawerLayout.DrawerListener{
 
     private static final String STATE_MATCHES_TO_CONFIRM = "matchesToConfirm";
 
     private PingPongApplication mApplication;
     private ArrayList<Match> mMatchesToConfirm;
     private InboxAdapter mInboxAdapter;
+    private InboxActionView mInboxActionView;
+    private DrawerLayout mDrawerLayout;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -56,6 +71,45 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
         setupListView();
         if (mMatchesToConfirm != null) {
             bindMatchesToConfirm();
+        } else {
+            refreshData(true);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_inbox, menu);
+        mInboxActionView = (InboxActionView) menu.findItem(R.id.action_inbox).getActionView();
+        mInboxActionView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDrawerLayout != null) {
+                    if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                        mDrawerLayout.closeDrawer(Gravity.RIGHT);
+                        mInboxActionView.setUnPressed();
+                    } else {
+                        mDrawerLayout.openDrawer(Gravity.RIGHT);
+                        mInboxActionView.setPressed();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem inbox = menu.findItem(R.id.action_inbox);
+        if (inbox != null) {
+            inbox.setVisible(mApplication.getCurrentPlayer() != null);
+        }
+        if (mInboxActionView != null) {
+            if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+                mInboxActionView.setPressed();
+            } else {
+                mInboxActionView.setUnPressed();
+            }
         }
     }
 
@@ -66,6 +120,10 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
         getListView().setSwipeOpenOnLongPress(false);
         getListView().setSwipeListViewListener(this);
         getListView().setOffsetLeft(getResources().getDimension(R.dimen.inbox_back_view_offset));
+    }
+
+    public void setDrawerLayout(DrawerLayout drawerLayout) {
+        mDrawerLayout = drawerLayout;
     }
 
     @Override
@@ -97,11 +155,13 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
                         public void success(List<Match> matches, Response response) {
                             mMatchesToConfirm = new ArrayList<Match>(matches);
                             bindMatchesToConfirm();
+                            EventBus.getDefault().postSticky(new InboxActionView.InboxItemUpdatedEvent(matches.size()));
                         }
 
                         @Override
                         public void failure(RetrofitError retrofitError) {
                             setLoadUnsuccessful();
+                            EventBus.getDefault().postSticky(new InboxActionView.InboxItemUpdatedEvent(0));
                         }
                     }
             );
@@ -124,34 +184,22 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
     }
 
     @Override
-    public void onOpened(int position, boolean toRight) {
-
-    }
+    public void onOpened(int position, boolean toRight) {/* no-op */}
 
     @Override
-    public void onClosed(int position, boolean fromRight) {
-
-    }
+    public void onClosed(int position, boolean fromRight) {/* no-op */}
 
     @Override
-    public void onListChanged() {
-
-    }
+    public void onListChanged() {/* no-op */}
 
     @Override
-    public void onMove(int position, float x) {
-
-    }
+    public void onMove(int position, float x) {/* no-op */}
 
     @Override
-    public void onStartOpen(int position, int action, boolean right) {
-
-    }
+    public void onStartOpen(int position, int action, boolean right) {/* no-op */}
 
     @Override
-    public void onStartClose(int position, boolean right) {
-
-    }
+    public void onStartClose(int position, boolean right) {/* no-op */}
 
     @Override
     public void onClickFrontView(int position) {
@@ -159,14 +207,10 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
     }
 
     @Override
-    public void onClickBackView(int position) {
-
-    }
+    public void onClickBackView(int position) {/* no-op */}
 
     @Override
-    public void onDismiss(int[] reverseSortedPositions) {
-
-    }
+    public void onDismiss(int[] reverseSortedPositions) {/* no-op */}
 
     @Override
     public int onChangeSwipeMode(int position) {
@@ -174,37 +218,49 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
     }
 
     @Override
-    public void onChoiceChanged(int position, boolean selected) {
-
-    }
+    public void onChoiceChanged(int position, boolean selected) {/* no-op */}
 
     @Override
-    public void onChoiceStarted() {
-
-    }
+    public void onChoiceStarted() {/* no-op */}
 
     @Override
-    public void onChoiceEnded() {
-
-    }
+    public void onChoiceEnded() {/* no-op */}
 
     @Override
-    public void onFirstListItem() {
-
-    }
+    public void onFirstListItem() {/* no-op */}
 
     @Override
-    public void onLastListItem() {
-
-    }
+    public void onLastListItem() {/* no-op */}
 
     public void inboxClosed() {
         getListView().closeOpenedItems();
     }
 
     public void inboxOpened() {
-        refreshData(mInboxAdapter == null || mInboxAdapter.getCount() == 0);
+        refreshData(false);
     }
+
+    @Override
+    public void onDrawerSlide(View drawerView, float slideOffset) {/* no-op */}
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        inboxOpened();
+        if (getActivity() != null) {
+            getActivity().invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        inboxClosed();
+        if (getActivity() != null) {
+            getActivity().invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {/* no-op */}
 
     private static final class InboxAdapter extends ArrayAdapter<Match> {
 
@@ -315,6 +371,7 @@ public class InboxFragment extends SwipeListViewPullToRefreshFragment implements
     public void onEventMainThread(SignedOutEvent event) {
         mMatchesToConfirm = null;
         setListAdapter(null);
+        EventBus.getDefault().postSticky(new InboxActionView.InboxItemUpdatedEvent(0));
     }
 
     public static class RefreshInboxEvent {}

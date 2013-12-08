@@ -35,7 +35,7 @@ import com.zappos.android.pingpong.preference.PingPongPreferences;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends Activity implements ActionBar.TabListener, DrawerLayout.DrawerListener {
+public class MainActivity extends Activity implements ActionBar.TabListener {
 
     public static final int TAB_LEADERBOARD = 0;
     public static final int TAB_NEW_MATCH = 1;
@@ -81,7 +81,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Dra
         setupViewPager();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-        mDrawerLayout.setDrawerListener(this);
+        mDrawerLayout.setDrawerListener(mInboxFragment);
+        mInboxFragment.setDrawerLayout(mDrawerLayout);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -117,6 +118,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Dra
     protected void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDrawerLayout.setDrawerListener(null);
     }
 
     private void setupViewPager() {
@@ -161,13 +168,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Dra
                 mApplication.setCurrentPlayer(null);
                 EventBus.getDefault().post(new SignedOutEvent());
                 return true;
-            case R.id.action_inbox:
-                if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-                    mDrawerLayout.closeDrawer(Gravity.RIGHT);
-                } else {
-                    mDrawerLayout.openDrawer(Gravity.RIGHT);
-                }
-                return true;
             default: return super.onOptionsItemSelected(item);
         }
     }
@@ -177,10 +177,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Dra
         MenuItem logout = menu.findItem(R.id.action_sign_out);
         if (logout != null) {
             logout.setVisible(mApplication.getCurrentPlayer() != null);
-        }
-        MenuItem inbox = menu.findItem(R.id.action_inbox);
-        if (inbox != null) {
-            inbox.setVisible(mApplication.getCurrentPlayer() != null);
         }
         return true;
     }
@@ -198,26 +194,6 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Dra
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    @Override
-    public void onDrawerSlide(View drawerView, float slideOffset) {
-
-    }
-
-    @Override
-    public void onDrawerOpened(View drawerView) {
-        mInboxFragment.inboxOpened();
-    }
-
-    @Override
-    public void onDrawerClosed(View drawerView) {
-        mInboxFragment.inboxClosed();
-    }
-
-    @Override
-    public void onDrawerStateChanged(int newState) {
-
     }
 
     /**

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_action_inbox"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/num_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:background="@drawable/number_background_2"
+                android:visibility="gone"
+                />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/actionMenuTextAppearance"
+            android:textColor="?android:attr/actionMenuTextColor"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:singleLine="true"
+            android:ellipsize="none"
+            android:background="@null"
+            android:paddingLeft="4dip"
+            android:paddingTop="4dip"
+            android:paddingBottom="4dip"
+            android:paddingRight="4dip"
+            android:focusable="false"
+            android:text="@string/action_inbox"
+            />
+
+    </LinearLayout>
+
+</merge>
