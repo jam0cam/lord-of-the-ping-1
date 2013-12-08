@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/HoloGraphLibrary/HoloGraphLibrary.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/HoloGraphLibrary/HoloGraphLibrary.iml" />
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/swipelistview/swipelistview.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/swipelistview/swipelistview.iml" />
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/zappos-ping-pong.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/zappos-ping-pong.iml" />
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/zappos-ping-pong/zappos-ping-pong-zappos-ping-pong.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/zappos-ping-pong/zappos-ping-pong/zappos-ping-pong-zappos-ping-pong.iml" />
+      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/HoloGraphLibrary/HoloGraphLibrary.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/HoloGraphLibrary/HoloGraphLibrary.iml" />
+      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp.iml" />
+      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp/lotp-lotp.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp/lotp-lotp.iml" />
+      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/swipelistview/swipelistview.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/swipelistview/swipelistview.iml" />
     </modules>
   </component>
 </project>
