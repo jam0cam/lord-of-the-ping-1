@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="swipelist_frontview" type="id"/>
+    <item name="swipelist_backview" type="id"/>
+</resources>

@@ -20,6 +20,7 @@ import com.zappos.android.pingpong.model.Player;
 import com.zappos.android.pingpong.preference.PingPongPreferences;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import de.greenrobot.event.EventBus;
 
@@ -189,6 +190,12 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
                 final String email = mSignInEmail.getText().toString();
                 final String password = mSignInPassword.getText().toString();
                 if (StringUtils.isEmpty(email)) {
+                    mSignInEmail.setError(getString(R.string.auth_email_blank));
+                    return;
+                } else {
+                    mSignInEmail.setError(null);
+                }
+                if (!EmailValidator.getInstance().isValid(email)) {
                     mSignInEmail.setError(getString(R.string.auth_email_invalid));
                     return;
                 } else {
@@ -245,6 +252,33 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
             @Override
             public void onClick(View v) {
                 dismissKeyboard();
+                final String name = mRegisterName.getText().toString();
+                final String email = mRegisterEmail.getText().toString();
+                final String password = mRegisterPassword.getText().toString();
+                if (StringUtils.isEmpty(name)) {
+                    mRegisterName.setError(getString(R.string.auth_name_invalid));
+                    return;
+                } else {
+                    mRegisterName.setError(null);
+                }
+                if (StringUtils.isEmpty(email)) {
+                    mRegisterEmail.setError(getString(R.string.auth_email_blank));
+                    return;
+                } else {
+                    mRegisterEmail.setError(null);
+                }
+                if (!EmailValidator.getInstance().isValid(email)) {
+                    mRegisterEmail.setError(getString(R.string.auth_email_invalid));
+                    return;
+                } else {
+                    mRegisterEmail.setError(null);
+                }
+                if (StringUtils.isEmpty(password)) {
+                    mRegisterPassword.setError(getString(R.string.auth_password_invalid));
+                    return;
+                } else {
+                    mRegisterPassword.setError(null);
+                }
                 mRegisterCont
                         .animate()
                         .alpha(0)

@@ -48,7 +48,9 @@
     <string name="register_lbl">Register</string>
     <string name="register_name_lbl">First &amp; Last Name</string>
     <string name="auth_email_invalid">Email is invalid!</string>
-    <string name="auth_password_invalid">Password is invalid!</string>
+    <string name="auth_email_blank">Email cannot be blank!</string>
+    <string name="auth_password_invalid">Password cannot be blank!</string>
+    <string name="auth_name_invalid">Name cannot be blank!</string>
     <string name="auth_signing_in_lbl">Signing in…</string>
     <string name="auth_registering_lbl">Registering…</string>
     <string name="sign_in_error">We were unable to sign you in. Your email address or password may be invalid.</string>
@@ -61,10 +63,12 @@
 
     <!-- Inbox -->
     <string name="confirm_match">Confirm Match</string>
-    <string name="win_lbl_txt">against %1$s %2$s on %3$s</string>
-    <string name="loss_lbl_txt">to %1$s %2$s on %3$s</string>
+    <string name="win_lbl_txt">against %1$s %2$s</string>
+    <string name="loss_lbl_txt">to %1$s %2$s</string>
     <string name="inbox_error_txt">We couldn\'t load your inbox at this time!</string>
     <string name="inbox_empty_txt">You have no messages at this time!</string>
+    <string name="confirm_btn_txt">Confirm</string>
+    <string name="decline_btn_txt">Decline</string>
 
     <!-- Plurals -->
     <plurals name="matches">

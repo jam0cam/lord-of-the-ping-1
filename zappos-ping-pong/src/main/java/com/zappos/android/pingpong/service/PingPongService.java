@@ -2,6 +2,7 @@ package com.zappos.android.pingpong.service;
 
 import com.zappos.android.pingpong.model.LeaderboardItem;
 import com.zappos.android.pingpong.model.Match;
+import com.zappos.android.pingpong.model.MatchConfirmationResponse;
 import com.zappos.android.pingpong.model.Player;
 import com.zappos.android.pingpong.model.Profile;
 
@@ -38,4 +39,7 @@ public interface PingPongService {
 
     @GET("/tt/pending/player/{id}")
     void getPendingMatches(@Path("id") long playerId, Callback<List<Match>> pendingMatchCallback);
+
+    @POST("/tt/confirmMatch")
+    void confirmMatch(@Body MatchConfirmationResponse response, Callback<Void> confirmationCallback);
 }

@@ -2,6 +2,7 @@ package com.zappos.android.pingpong.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.zappos.android.pingpong.PingPongApplication;
 import com.zappos.android.pingpong.R;
+import com.zappos.android.pingpong.activity.ProfileActivity;
 import com.zappos.android.pingpong.model.LeaderboardItem;
 import com.zappos.android.pingpong.model.Player;
 
@@ -33,24 +35,12 @@ import retrofit.client.Response;
  */
 public class LeaderboardFragment extends PullToRefreshFragment implements AdapterView.OnItemClickListener {
 
-    public static interface OnPlayerSelectedListener {
-        void onPlayerSelected(Player player);
-    }
-
     private static final String TAG = LeaderboardFragment.class.getName();
     private static final String STATE_LEADERBOARD = "leaderboard";
 
     private PingPongApplication mApplication;
     private ArrayList<LeaderboardItem> mLeaderboard;
     private LeaderboardAdapter mLeaderboardAdapter;
-
-    private OnPlayerSelectedListener mOnPlayerSelectedListener;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mOnPlayerSelectedListener = (OnPlayerSelectedListener) activity;
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -61,7 +51,7 @@ public class LeaderboardFragment extends PullToRefreshFragment implements Adapte
         mApplication = (PingPongApplication) getActivity().getApplication();
         setupListView();
         if (mLeaderboard == null) {
-            refreshData();
+            refreshData(true);
         } else {
             bindLeaderboard();
         }
@@ -80,14 +70,8 @@ public class LeaderboardFragment extends PullToRefreshFragment implements Adapte
         outState.putSerializable(STATE_LEADERBOARD, mLeaderboard);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mOnPlayerSelectedListener = null;
-    }
-
-    public void refreshData() {
-        super.refreshData();
+    public void refreshData(boolean setLoading) {
+        super.refreshData(setLoading);
         mApplication.getPingPongService().getLeaderBoard(
                 new Callback<List<LeaderboardItem>>() {
                     @Override
@@ -114,9 +98,8 @@ public class LeaderboardFragment extends PullToRefreshFragment implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (mOnPlayerSelectedListener != null) {
-            mOnPlayerSelectedListener.onPlayerSelected(mLeaderboardAdapter.getItem(position - getListView().getHeaderViewsCount()).getPlayer());
-        }
+        startActivity(new Intent(getActivity(), ProfileActivity.class)
+                .putExtra(ProfileActivity.EXTRA_PLAYER, mLeaderboardAdapter.getItem(position - getListView().getHeaderViewsCount()).getPlayer()));
     }
 
     private static class LeaderboardAdapter extends ArrayAdapter<LeaderboardItem> {

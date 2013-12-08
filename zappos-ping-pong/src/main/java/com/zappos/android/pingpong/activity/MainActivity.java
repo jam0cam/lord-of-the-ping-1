@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.zappos.android.pingpong.PingPongApplication;
@@ -25,6 +26,7 @@ import com.zappos.android.pingpong.R;
 import com.zappos.android.pingpong.event.SignedInEvent;
 import com.zappos.android.pingpong.event.SignedOutEvent;
 import com.zappos.android.pingpong.fragment.AuthFragment;
+import com.zappos.android.pingpong.fragment.InboxFragment;
 import com.zappos.android.pingpong.fragment.LeaderboardFragment;
 import com.zappos.android.pingpong.fragment.NewMatchFragment;
 import com.zappos.android.pingpong.fragment.ProfileFragment;
@@ -33,7 +35,7 @@ import com.zappos.android.pingpong.preference.PingPongPreferences;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends Activity implements ActionBar.TabListener, LeaderboardFragment.OnPlayerSelectedListener {
+public class MainActivity extends Activity implements ActionBar.TabListener, DrawerLayout.DrawerListener {
 
     public static final int TAB_LEADERBOARD = 0;
     public static final int TAB_NEW_MATCH = 1;
@@ -55,7 +57,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
     ViewPager mViewPager;
 
     private DrawerLayout mDrawerLayout;
-
+    private InboxFragment mInboxFragment;
     private PingPongApplication mApplication;
 
     @Override
@@ -65,6 +67,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
         mApplication = (PingPongApplication) getApplication();
 
         setContentView(R.layout.activity_main);
+
+        mInboxFragment = (InboxFragment) getFragmentManager().findFragmentById(R.id.fragment_inbox);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -77,6 +81,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
         setupViewPager();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        mDrawerLayout.setDrawerListener(this);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -196,8 +201,23 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Lea
     }
 
     @Override
-    public void onPlayerSelected(Player player) {
-        startActivity(new Intent(this, ProfileActivity.class).putExtra(ProfileActivity.EXTRA_PLAYER, player));
+    public void onDrawerSlide(View drawerView, float slideOffset) {
+
+    }
+
+    @Override
+    public void onDrawerOpened(View drawerView) {
+        mInboxFragment.inboxOpened();
+    }
+
+    @Override
+    public void onDrawerClosed(View drawerView) {
+        mInboxFragment.inboxClosed();
+    }
+
+    @Override
+    public void onDrawerStateChanged(int newState) {
+
     }
 
     /**

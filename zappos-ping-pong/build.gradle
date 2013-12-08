@@ -44,5 +44,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
     compile 'de.greenrobot:eventbus:2.2.0'
     compile 'commons-lang:commons-lang:2.6'
+    compile 'commons-validator:commons-validator:1.4.0'
 	compile project(':HoloGraphLibrary')
+	compile project(':swipelistview')
 }

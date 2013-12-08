@@ -2,6 +2,7 @@ package com.zappos.android.pingpong.fragment;
 
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.echo.holographlibrary.PieSlice;
 import com.squareup.picasso.Picasso;
 import com.zappos.android.pingpong.PingPongApplication;
 import com.zappos.android.pingpong.R;
+import com.zappos.android.pingpong.activity.ProfileActivity;
 import com.zappos.android.pingpong.event.SignedOutEvent;
 import com.zappos.android.pingpong.model.Match;
 import com.zappos.android.pingpong.model.Player;
@@ -46,7 +49,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 /**
  * Created by mattkranzler on 12/4/13.
  */
-public class ProfileFragment extends PullToRefreshFragment implements OnRefreshListener {
+public class ProfileFragment extends PullToRefreshFragment implements OnRefreshListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = ProfileFragment.class.getName();
     private static final String ARG_PLAYER = "player";
@@ -94,7 +97,7 @@ public class ProfileFragment extends PullToRefreshFragment implements OnRefreshL
         }
 
         if (mProfile == null) {
-            refreshData();
+            refreshData(true);
         } else {
             bindProfile();
         }
@@ -104,6 +107,7 @@ public class ProfileFragment extends PullToRefreshFragment implements OnRefreshL
         getListView().setBackgroundColor(Color.WHITE);
         getListView().setDrawSelectorOnTop(true);
         getListView().setHeaderDividersEnabled(false);
+        getListView().setOnItemClickListener(this);
         setupHeader(getActivity());
     }
 
@@ -132,8 +136,8 @@ public class ProfileFragment extends PullToRefreshFragment implements OnRefreshL
         getListView().addHeaderView(header, null, false);
     }
 
-    public void refreshData() {
-        super.refreshData();
+    public void refreshData(boolean setLoading) {
+        super.refreshData(setLoading);
         mApplication.getPingPongService().getProfile(
                 Long.valueOf(mPlayer.getId()),
                 new Callback<Profile>() {
@@ -210,6 +214,12 @@ public class ProfileFragment extends PullToRefreshFragment implements OnRefreshL
     private void bindMatchHistory() {
         mMatchHistoryAdapter = new MatchHistoryAdapter(getActivity(), mProfile.getMatches());
         setListAdapter(mMatchHistoryAdapter);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        startActivity(new Intent(getActivity(), ProfileActivity.class)
+                .putExtra(ProfileActivity.EXTRA_PLAYER, mMatchHistoryAdapter.getItem(position - getListView().getHeaderViewsCount()).getP2()));
     }
 
     private static class MatchHistoryAdapter extends ArrayAdapter<Match> {

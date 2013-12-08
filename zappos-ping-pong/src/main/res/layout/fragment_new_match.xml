@@ -93,6 +93,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
                     android:text="W"
+                    android:clickable="true"
                     android:background="@drawable/win_background"/>
 
                 <LinearLayout

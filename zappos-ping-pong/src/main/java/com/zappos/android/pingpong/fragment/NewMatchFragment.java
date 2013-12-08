@@ -190,6 +190,19 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
         mOpponentField.setAdapter(mOpponentAutoCompleteAdapter);
         mOpponentField.setOnItemClickListener(this);
 
+        mResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // toggle between wins and losses
+                if (getTotalWins() >= 3) {
+                    mWinsSpinner.setSelection(0);
+                } else {
+                    mWinsSpinner.setSelection(3);
+                }
+            }
+        });
+
         mClearOpponentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

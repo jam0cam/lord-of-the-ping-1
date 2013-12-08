@@ -5,10 +5,50 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     >
 
-    <RelativeLayout
-        android:id="@+id/front"
+    <LinearLayout
+        android:id="@id/swipelist_backview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:paddingLeft="@dimen/inbox_back_view_offset">
+        
+        <Button
+            android:id="@+id/inbox_match_confirmation_confirm_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/confirm_btn_txt"
+            android:background="@drawable/primary_button"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="3dp"
+            android:layout_gravity="center_vertical"
+            />
+
+        <Button
+            android:id="@+id/inbox_match_confirmation_decline_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/decline_btn_txt"
+            android:background="@drawable/secondary_button"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_gravity="center_vertical"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@id/swipelist_frontview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
         android:padding="6dp">
 
         <ImageView
@@ -29,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/inbox_match_confirmation_avatar"
             android:layout_alignTop="@id/inbox_match_confirmation_avatar"
+            android:layout_toLeftOf="@+id/inbox_match_confirmation_more_btn"
             android:text="@string/confirm_match"
             android:fontFamily="sans-serif-condensed" />
 
@@ -56,9 +97,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/inbox_match_confirmation_name"
             android:layout_toRightOf="@id/inbox_match_confirmation_result_lbl"
+            android:layout_toLeftOf="@id/inbox_match_confirmation_more_btn"
             android:layout_alignBaseline="@id/inbox_match_confirmation_result_lbl"
             android:fontFamily="sans-serif-light"
             tools:text="against Jia T (4-1) on Fri, Dec 12"/>
+
+        <ImageButton
+            android:id="@id/inbox_match_confirmation_more_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/ic_action_overflow_dark"/>
 
     </RelativeLayout>
 
