@@ -56,13 +56,12 @@
                 android:layout_marginBottom="20dp">
 
                 <Button
+                    style="@style/PrimaryButtonStyle"
                     android:id="@+id/sign_in_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sign_in_lbl"
-                    android:background="@drawable/primary_button"
-                    android:textColor="@android:color/white"/>
+                    android:text="@string/sign_in_lbl"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,13 +72,12 @@
                     android:paddingRight="20dp"/>
 
                 <Button
+                    style="@style/SecondaryButtonStyle"
                     android:id="@+id/sign_in_register_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/register_lbl"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/secondary_button"/>
+                    android:text="@string/register_lbl"/>
 
             </LinearLayout>
 
@@ -140,13 +138,12 @@
                 android:layout_marginBottom="20dp">
 
                 <Button
+                    style="@style/PrimaryButtonStyle"
                     android:id="@+id/register_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/register_lbl"
-                    android:background="@drawable/primary_button"
-                    android:textColor="@android:color/white"/>
+                    android:text="@string/register_lbl"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -158,13 +155,12 @@
                     android:paddingRight="20dp"/>
 
                 <Button
+                    style="@style/SecondaryButtonStyle"
                     android:id="@+id/register_sign_in_btn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/sign_in_lbl"
-                    android:textColor="@android:color/white"
-                    android:background="@drawable/secondary_button"/>
+                    android:text="@string/sign_in_lbl"/>
 
             </LinearLayout>
 
@@ -216,11 +212,10 @@
                 android:paddingTop="4dip" />
 
             <Button
+                style="@style/PrimaryButtonStyle"
                 android:id="@+id/auth_try_again_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/primary_button"
-                android:textColor="@android:color/white"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/try_again_btn_lbl"/>
 

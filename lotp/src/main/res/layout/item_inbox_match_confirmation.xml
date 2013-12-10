@@ -13,13 +13,12 @@
         android:paddingLeft="@dimen/inbox_back_view_offset">
         
         <Button
+            style="@style/PrimaryButtonStyle"
             android:id="@+id/inbox_match_confirmation_confirm_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/confirm_btn_txt"
-            android:background="@drawable/primary_button"
-            android:textColor="@android:color/white"
             android:layout_marginTop="6dp"
             android:layout_marginLeft="6dp"
             android:layout_marginBottom="6dp"
@@ -28,13 +27,12 @@
             />
 
         <Button
+            style="@style/SecondaryButtonStyle"
             android:id="@+id/inbox_match_confirmation_decline_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/decline_btn_txt"
-            android:background="@drawable/secondary_button"
-            android:textColor="@android:color/white"
             android:layout_marginTop="6dp"
             android:layout_marginLeft="3dp"
             android:layout_marginBottom="6dp"

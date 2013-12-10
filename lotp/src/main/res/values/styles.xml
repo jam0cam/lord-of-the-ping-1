@@ -1,42 +1,5 @@
 <resources>
 
-    <style name="Theme.Lotp" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_lotp</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Lotp</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Lotp</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Lotp</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Lotp</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Lotp</item>
-        <item name="android:actionModeBackground">@drawable/cab_background_top_lotp</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_lotp</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lotp</item>
-        <item name="android:actionBarTabTextStyle">@style/ActionBarTabTextStyle.Lotp</item>
-
-        <!-- Light.DarkActionBar specific -->
-        <item name="android:actionBarWidgetTheme">@style/Theme.Lotp.Widget</item>
-
-        <item name="android:editTextStyle">@style/EditTextlotp</item>
-        <item name="android:listViewStyle">@style/ListViewlotp</item>
-        <item name="android:listViewWhiteStyle">@style/ListViewlotp.White</item>
-        <item name="android:spinnerItemStyle">@style/SpinnerItemlotp</item>
-        <item name="android:editTextBackground">@drawable/lotp_edit_text_holo_light</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/lotp_list_selector_holo_light</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/lotp_activated_background_holo_light</item>
-        <item name="android:spinnerStyle">@style/Spinnerlotp</item>
-        <item name="android:autoCompleteTextViewStyle">@style/AutocompleteTextViewlotp</item>
-
-        <item name="android:listDivider">@drawable/list_divider</item>
-        <item name="android:textColorPrimary">@color/dark_blue</item>
-        <item name="android:textColorPrimaryInverse">@android:color/white</item>
-        <item name="android:textColorSecondary">@color/blue</item>
-        <item name="android:selectableItemBackground">@drawable/lotp_list_selector_holo_light</item>
-
-        <item name="listSelector">@drawable/lotp_list_selector_holo_light</item>
-        <item name="listSelectorPressed">@drawable/lotp_list_pressed_holo_light</item>
-        <item name="ptrHeaderStyle">@style/PullToRefreshStyle</item>
-    </style>
-
     <style name="SectionHeaderStyle" parent="android:Widget.Holo.Light.TextView">
         <item name="android:drawableBottom">@drawable/section_header</item>
         <item name="android:drawablePadding">4dp</item>
@@ -137,6 +100,20 @@
 
     <style name="AutocompleteTextViewlotp" parent="@android:Widget.Holo.Light.AutoCompleteTextView">
         <item name="android:dropDownSelector">@drawable/lotp_list_selector_holo_light</item>
+    </style>
+
+    <style name="PrimaryButtonStyle" parent="@android:Widget.Holo.Button">
+        <item name="android:background">@drawable/primary_button</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SecondaryButtonStyle" parent="@android:Widget.Holo.Button">
+        <item name="android:background">@drawable/secondary_button</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TableHeaderTextStyle" parent="@android:TextAppearance.Small">
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

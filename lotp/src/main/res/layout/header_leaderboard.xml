@@ -15,15 +15,14 @@
             android:id="@+id/leaderboard_pos"
             android:layout_width="36dp"
             android:layout_height="wrap_content"
-            android:text=""
-            tools:text="1"/>
+            android:text=""/>
 
         <TextView
+            style="@style/TableHeaderTextStyle"
             android:id="@+id/leaderboard_name"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="@string/leaderboard_name_lbl"
-            android:textStyle="bold"
             tools:text="Matt Kranzler"/>
 
         <RelativeLayout
@@ -33,23 +32,23 @@
             android:layout_gravity="right">
 
             <TextView
+                style="@style/TableHeaderTextStyle"
                 android:id="@+id/leaderboard_wins"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/leaderboard_losses"
                 android:gravity="right"
                 android:text="@string/leaderboard_wins_lbl"
-                android:textStyle="bold"
                 tools:text="100"/>
 
             <TextView
+                style="@style/TableHeaderTextStyle"
                 android:id="@id/leaderboard_losses"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="right"
                 android:text="@string/leaderboard_losses_lbl"
-                android:textStyle="bold"
                 tools:text="50"/>
 
         </RelativeLayout>

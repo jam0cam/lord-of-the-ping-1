@@ -19,6 +19,8 @@ import retrofit.http.Path;
  */
 public interface PingPongService {
 
+    public static String SERVER = "http://zappos-tt.elasticbeanstalk.com/";
+
     @GET("/tt/leaderboard")
     void getLeaderBoard(Callback<List<LeaderboardItem>> leaderBoardCallback);
 

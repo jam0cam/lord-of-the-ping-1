@@ -21,7 +21,7 @@ public class PingPongApplication extends Application {
         super.onCreate();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setServer("http://zappos-tt.elasticbeanstalk.com/")
+                .setServer(PingPongService.SERVER)
                 .build();
 
         mPingPongService = restAdapter.create(PingPongService.class);
