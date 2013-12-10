@@ -100,6 +100,7 @@
     <orderEntry type="library" exported="" name="support-v13-19.0.0" level="project" />
     <orderEntry type="library" exported="" name="commons-digester-1.8" level="project" />
     <orderEntry type="library" exported="" name="ComGithubCastorflexSmoothprogressbarLibrary020.aar" level="project" />
+    <orderEntry type="library" exported="" name="crashlytics-1.1.5" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="module" module-name="swipelistview" exported="" />
   </component>

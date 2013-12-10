@@ -27,6 +27,8 @@
         </activity>
 
         <activity android:name="com.zappos.android.lotp.activity.ProfileActivity"/>
+
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="9db779342b23c94e19575e4e61e94ae4355217e7"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

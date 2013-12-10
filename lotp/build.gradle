@@ -1,16 +1,5 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
-    }
-}
 apply plugin: 'android'
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 19
@@ -19,6 +8,9 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
+    }
+    repositories {
+        maven { url 'http://download.crashlytics.com/maven' }
     }
     buildTypes {
         release {
@@ -45,6 +37,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.2.0'
     compile 'commons-lang:commons-lang:2.6'
     compile 'commons-validator:commons-validator:1.4.0'
+    compile 'com.crashlytics.android:crashlytics:1.+'
 	compile project(':HoloGraphLibrary')
 	compile project(':swipelistview')
 }

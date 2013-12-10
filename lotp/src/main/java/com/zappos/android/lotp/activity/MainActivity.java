@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
 import com.zappos.android.lotp.PingPongApplication;
 import com.zappos.android.lotp.R;
 import com.zappos.android.lotp.event.SignedInEvent;
@@ -58,7 +59,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Crashlytics.start(this);
         mApplication = (PingPongApplication) getApplication();
 
         setContentView(R.layout.activity_main);
