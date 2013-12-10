@@ -92,15 +92,9 @@ public abstract class PullToRefreshFragment extends ListFragment implements OnRe
     protected void setLoading() {
         AnimatorSet set = new AnimatorSet();
         List<Animator> fadeOut = new ArrayList<Animator>();
-        if (View.VISIBLE == mTryAgainCont.getVisibility()) {
-            fadeOut.add(fadeOutTryAgainCont());
-        }
-        if (View.VISIBLE == mEmptyCont.getVisibility()) {
-            fadeOut.add(fadeOutEmptyCont());
-        }
-        if (View.VISIBLE == getListView().getVisibility()) {
-            fadeOut.add(fadeOutListView());
-        }
+        fadeOut.add(fadeOutTryAgainCont());
+        fadeOut.add(fadeOutEmptyCont());
+        fadeOut.add(fadeOutListView());
         set.addListener(
                 new AnimatorListenerAdapter() {
                     @Override
@@ -117,15 +111,9 @@ public abstract class PullToRefreshFragment extends ListFragment implements OnRe
         mPullToRefreshLayout.setRefreshComplete();
         AnimatorSet set = new AnimatorSet();
         List<Animator> fadeOut = new ArrayList<Animator>();
-        if (View.VISIBLE == mProgressCont.getVisibility()) {
-            fadeOut.add(fadeOutProgressCont());
-        }
-        if (View.VISIBLE == mTryAgainCont.getVisibility()) {
-            fadeOut.add(fadeOutTryAgainCont());
-        }
-        if (View.VISIBLE == mEmptyCont.getVisibility()) {
-            fadeOut.add(fadeOutEmptyCont());
-        }
+        fadeOut.add(fadeOutProgressCont());
+        fadeOut.add(fadeOutTryAgainCont());
+        fadeOut.add(fadeOutEmptyCont());
         set.addListener(
                 new AnimatorListenerAdapter() {
                     @Override
@@ -142,15 +130,9 @@ public abstract class PullToRefreshFragment extends ListFragment implements OnRe
         mPullToRefreshLayout.setRefreshComplete();
         AnimatorSet set = new AnimatorSet();
         List<Animator> fadeOut = new ArrayList<Animator>();
-        if (View.VISIBLE == mProgressCont.getVisibility()) {
-            fadeOut.add(fadeOutProgressCont());
-        }
-        if (View.VISIBLE == getListView().getVisibility()) {
-            fadeOut.add(fadeOutListView());
-        }
-        if (View.VISIBLE == mEmptyCont.getVisibility()) {
-            fadeOut.add(fadeOutEmptyCont());
-        }
+        fadeOut.add(fadeOutProgressCont());
+        fadeOut.add(fadeOutListView());
+        fadeOut.add(fadeOutEmptyCont());
         set.addListener(
                 new AnimatorListenerAdapter() {
                     @Override
@@ -167,15 +149,9 @@ public abstract class PullToRefreshFragment extends ListFragment implements OnRe
         mPullToRefreshLayout.setRefreshComplete();
         AnimatorSet set = new AnimatorSet();
         List<Animator> fadeOut = new ArrayList<Animator>();
-        if (View.VISIBLE == mProgressCont.getVisibility()) {
-            fadeOut.add(fadeOutProgressCont());
-        }
-        if (View.VISIBLE == getListView().getVisibility()) {
-            fadeOut.add(fadeOutListView());
-        }
-        if (View.VISIBLE == mEmptyCont.getVisibility()) {
-            fadeOut.add(fadeOutEmptyCont());
-        }
+        fadeOut.add(fadeOutProgressCont());
+        fadeOut.add(fadeOutListView());
+        fadeOut.add(fadeOutEmptyCont());
         set.addListener(
                 new AnimatorListenerAdapter() {
                     @Override

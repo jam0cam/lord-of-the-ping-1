@@ -13,7 +13,7 @@
 
     <!-- Leaderboard Items -->
     <string name="leaderboard_pos_lbl">#</string>
-    <string name="leaderboard_name_lbl">Player</string>
+    <string name="leaderboard_name_lbl">Name</string>
     <string name="leaderboard_wins_lbl">W</string>
     <string name="leaderboard_losses_lbl">L</string>
 
