@@ -1,0 +1,1 @@
+insert into pending(p1_id, p2_id, p1_score, p2_score, status, date) values (2, 1, 0, 5, 'pending', now());

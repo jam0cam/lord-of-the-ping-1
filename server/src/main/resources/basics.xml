@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:context="http://www.springframework.org/schema/context"
+            xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <context:component-scan base-package="com">
+        <context:exclude-filter type="regex" expression="com.finance"/>
+    </context:component-scan>
+
+    <bean:bean id="propertyPlaceholderConfigurer"
+               class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <bean:property name="locations">
+            <bean:list>
+                <bean:value>classpath:default-config.properties</bean:value>
+                <!--<bean:value>file:/Users/jitse/.spring/honey.properties</bean:value>-->
+            </bean:list>
+        </bean:property>
+    </bean:bean>
+
+
+    <bean:bean id="mailSender" class="com.lotp.postageapp.MailSender">
+        <bean:property name="from" value="${from.email}"/>
+        <bean:property name="apiKey" value="${api.key}"/>
+    </bean:bean>
+
+    <bean:bean id="sqlMapConfig" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <bean:property name="configLocation" value="classpath:sql/SqlMapConfig.xml" />
+        <bean:property name="dataSource" ref="dataSource" />
+    </bean:bean>
+
+    <bean:bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <bean:property name="driverClass" value="${jdbc.driver}" />
+        <bean:property name="jdbcUrl" value="${jdbc.url}" />
+        <bean:property name="user" value="${jdbc.username}" />
+        <bean:property name="password" value="${jdbc.password}" />
+        <bean:property name="idleConnectionTestPeriod" value="300" />
+        <bean:property name="maxIdleTime" value="1800" />
+        <bean:property name="maxConnectionAge" value="3600" />  <!-- in seconds (DB isnt behind a load balancer) -->
+    </bean:bean>
+</bean:beans>
