@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Player : NSObject
+@interface Player : NSObject <NSCoding>
 
 @property (nonatomic, retain) NSString *id;
 @property (nonatomic, retain) NSString *email;

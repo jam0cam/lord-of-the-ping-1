@@ -8,6 +8,7 @@
 
 #import "LPLeaderboardTableViewController.h"
 #import "Player.h"
+#import "LeaderboardItem.h"
 
 @interface LPLeaderboardTableViewController ()
 
@@ -100,7 +101,12 @@
     // receivedData is declared as a property elsewhere
     NSLog(@"Succeeded! Received %d bytes of data",[data length]);
     
+    NSError *error;
+    _players = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+
+    NSLog(@"%d player data rows", [_players count]);
     
+    [self.tableView reloadData];
     
     // Release the connection and the data object
     // by setting the properties (declared elsewhere)
@@ -125,26 +131,28 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [_players count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leaderboard_row" forIndexPath:indexPath];
     
     // Configure the cell...
+    NSDictionary *row = [_players objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [[row objectForKey:@"player"] objectForKey:@"name"];
     
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

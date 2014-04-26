@@ -9,5 +9,28 @@
 #import "LeaderboardItem.h"
 
 @implementation LeaderboardItem
+@synthesize player;
+@synthesize matchWin;
+@synthesize matchLosses;
+@synthesize winningPercentage;
+
+-(void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.player forKey:@"player"];
+    [coder encodeInt:self.matchWin forKey:@"matchWin"];
+    [coder encodeFloat:self.matchLosses forKey:@"matchLosses"];
+    [coder encodeFloat:self.winningPercentage forKey:@"winningPercentage"];
+}
+
+- (id)initWithCoder:(NSCoder *) coder {
+    self = [super init];
+    if( self ){
+        player = [coder decodeObjectForKey:@"player"];
+        matchWin = [coder decodeIntForKey:@"matchWin"];
+        matchLosses = [coder decodeFloatForKey:@"matchLosses"];
+        winningPercentage = [coder decodeFloatForKey:@"winningPercentage"];
+    }
+    
+    return self;
+}
 
 @end

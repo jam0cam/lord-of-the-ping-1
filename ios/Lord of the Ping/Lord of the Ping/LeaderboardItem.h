@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "Player.h"
 
-@interface LeaderboardItem : NSObject
+@interface LeaderboardItem : NSObject <NSCoding>
 
 @property (nonatomic, retain) Player *player;
-@property (nonatomic) int *matchWin;
-@property (nonatomic) int *matchLosses;
-@property (nonatomic) float *winningPercentage;
+@property (nonatomic) int matchWin;
+@property (nonatomic) int matchLosses;
+@property (nonatomic) float winningPercentage;
 
 @end
