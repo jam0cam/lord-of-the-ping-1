@@ -1,1 +1,4 @@
 *server/.idea*
+*server/target*
+.DS*
+*.iml
