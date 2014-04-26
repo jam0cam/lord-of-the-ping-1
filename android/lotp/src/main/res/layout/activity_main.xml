@@ -12,7 +12,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="com.zappos.android.lotp.activity.MainActivity" />
+            tools:context="com.lordoftheping.android.activity.MainActivity" />
 
     </FrameLayout>
 
@@ -25,7 +25,7 @@
 
         <fragment
             android:id="@+id/fragment_inbox"
-            android:name="com.zappos.android.lotp.fragment.InboxFragment"
+            android:name="com.lordoftheping.android.fragment.InboxFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

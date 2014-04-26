@@ -23,6 +23,7 @@
 		184E65F6190B4FD300087BF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 184E65D2190B4FD300087BF3 /* UIKit.framework */; };
 		184E65FE190B4FD300087BF3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 184E65FC190B4FD300087BF3 /* InfoPlist.strings */; };
 		184E6600190B4FD300087BF3 /* Lord_of_the_PingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E65FF190B4FD300087BF3 /* Lord_of_the_PingTests.m */; };
+		184E660B190B729200087BF3 /* LPLeaderboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E660A190B729200087BF3 /* LPLeaderboardTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,8 @@
 		184E65FB190B4FD300087BF3 /* Lord of the PingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Lord of the PingTests-Info.plist"; sourceTree = "<group>"; };
 		184E65FD190B4FD300087BF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		184E65FF190B4FD300087BF3 /* Lord_of_the_PingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lord_of_the_PingTests.m; sourceTree = "<group>"; };
+		184E6609190B729200087BF3 /* LPLeaderboardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLeaderboardTableViewController.h; sourceTree = "<group>"; };
+		184E660A190B729200087BF3 /* LPLeaderboardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLeaderboardTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,8 @@
 				184E65DE190B4FD300087BF3 /* LPAppDelegate.m */,
 				184E65E0190B4FD300087BF3 /* Main_iPhone.storyboard */,
 				184E65E3190B4FD300087BF3 /* Main_iPad.storyboard */,
+				184E6609190B729200087BF3 /* LPLeaderboardTableViewController.h */,
+				184E660A190B729200087BF3 /* LPLeaderboardTableViewController.m */,
 				184E65E6190B4FD300087BF3 /* LPFirstViewController.h */,
 				184E65E7190B4FD300087BF3 /* LPFirstViewController.m */,
 				184E65E9190B4FD300087BF3 /* LPSecondViewController.h */,
@@ -263,6 +268,7 @@
 				184E65DF190B4FD300087BF3 /* LPAppDelegate.m in Sources */,
 				184E65EB190B4FD300087BF3 /* LPSecondViewController.m in Sources */,
 				184E65DB190B4FD300087BF3 /* main.m in Sources */,
+				184E660B190B729200087BF3 /* LPLeaderboardTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,12 +403,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Matt Runo (8EW7NT7S5X)";
+				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lord of the Ping/Lord of the Ping-Prefix.pch";
 				INFOPLIST_FILE = "Lord of the Ping/Lord of the Ping-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D8809754-8DDB-40FF-9AA7-41D3AFB337C2";
+				PROVISIONING_PROFILE = "51004333-EEBF-4137-ACB7-69A3D5B61970";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -412,12 +418,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Matt Runo (8EW7NT7S5X)";
+				CODE_SIGN_IDENTITY = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lord of the Ping/Lord of the Ping-Prefix.pch";
 				INFOPLIST_FILE = "Lord of the Ping/Lord of the Ping-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D8809754-8DDB-40FF-9AA7-41D3AFB337C2";
+				PROVISIONING_PROFILE = "51004333-EEBF-4137-ACB7-69A3D5B61970";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

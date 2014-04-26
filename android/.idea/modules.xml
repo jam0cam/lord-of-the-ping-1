@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/HoloGraphLibrary/HoloGraphLibrary.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/HoloGraphLibrary/HoloGraphLibrary.iml" />
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp.iml" />
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp/lotp-lotp.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/lotp/lotp-lotp.iml" />
-      <module fileurl="file://$USER_HOME$/Dropbox/Development/projects/android/lotp/swipelistview/swipelistview.iml" filepath="$USER_HOME$/Dropbox/Development/projects/android/lotp/swipelistview/swipelistview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HoloGraphLibrary/HoloGraphLibrary.iml" filepath="$PROJECT_DIR$/HoloGraphLibrary/HoloGraphLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lotp/lotp.iml" filepath="$PROJECT_DIR$/lotp/lotp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipelistview/swipelistview.iml" filepath="$PROJECT_DIR$/swipelistview/swipelistview.iml" />
     </modules>
   </component>
 </project>

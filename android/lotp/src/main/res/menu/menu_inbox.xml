@@ -6,7 +6,7 @@
         android:id="@+id/action_inbox"
         android:title="@string/action_inbox"
         android:showAsAction="always"
-        android:actionViewClass="com.zappos.android.lotp.view.InboxActionView"
+        android:actionViewClass="com.lordoftheping.android.view.InboxActionView"
         />
 
 </menu>

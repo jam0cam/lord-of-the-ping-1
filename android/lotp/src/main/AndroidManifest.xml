@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zappos.android.lotp"
+    package="com.lordoftheping.android"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -9,14 +9,13 @@
         android:targetSdkVersion="19" />
 
     <application
-        android:name="com.zappos.android.lotp.PingPongApplication"
+        android:name="com.lordoftheping.android.PingPongApplication"
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Lotp" >
         <activity
-            android:name="com.zappos.android.lotp.activity.MainActivity"
+            android:name="com.lordoftheping.android.activity.MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:label="@string/app_name" >
             <intent-filter>
@@ -26,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.zappos.android.lotp.activity.ProfileActivity"/>
+        <activity android:name="com.lordoftheping.android.activity.ProfileActivity"/>
 
         <meta-data android:name="com.crashlytics.ApiKey" android:value="9db779342b23c94e19575e4e61e94ae4355217e7"/>
     </application>

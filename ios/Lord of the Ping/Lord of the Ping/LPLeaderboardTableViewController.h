@@ -1,5 +1,5 @@
 //
-//  LPSecondViewController.h
+//  LPLeaderboardTableViewController.h
 //  Lord of the Ping
 //
 //  Created by Matthew Runo on 4/25/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPSecondViewController : UITableViewController
+@interface LPLeaderboardTableViewController : UITableViewController
 
 @end
