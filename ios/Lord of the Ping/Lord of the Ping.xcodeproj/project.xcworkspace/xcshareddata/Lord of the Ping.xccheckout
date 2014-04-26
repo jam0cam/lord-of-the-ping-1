@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>42DBA8C2-677B-4884-B508-F89575921555</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Lord of the Ping</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F489C5B6-221F-43E7-9EE6-8C198EF0674B</key>
+		<string>https://github.com/inktomi/lord-of-the-ping.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ios/Lord of the Ping/Lord of the Ping.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F489C5B6-221F-43E7-9EE6-8C198EF0674B</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/inktomi/lord-of-the-ping.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F489C5B6-221F-43E7-9EE6-8C198EF0674B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F489C5B6-221F-43E7-9EE6-8C198EF0674B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>lord-of-the-ping</string>
+		</dict>
+	</array>
+</dict>
+</plist>
