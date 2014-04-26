@@ -397,10 +397,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matt Runo (8EW7NT7S5X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lord of the Ping/Lord of the Ping-Prefix.pch";
 				INFOPLIST_FILE = "Lord of the Ping/Lord of the Ping-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "D8809754-8DDB-40FF-9AA7-41D3AFB337C2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -410,10 +412,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Matt Runo (8EW7NT7S5X)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Lord of the Ping/Lord of the Ping-Prefix.pch";
 				INFOPLIST_FILE = "Lord of the Ping/Lord of the Ping-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "D8809754-8DDB-40FF-9AA7-41D3AFB337C2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
