@@ -7,12 +7,18 @@
 //
 
 #import "LPLeaderboardTableViewController.h"
+#import "Player.h"
 
 @interface LPLeaderboardTableViewController ()
 
 @end
 
 @implementation LPLeaderboardTableViewController
+{
+    NSMutableArray *_players;
+    NSMutableData *data;
+    NSURLConnection *urlConnection;
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,11 +33,84 @@
 {
     [super viewDidLoad];
     
+    [self downloadLeaderboard];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)downloadLeaderboard
+{
+    NSURL *leaderboard = [NSURL URLWithString:@"http://www.lordoftheping.com/tt/leaderboard"];
+    
+    NSURLRequest *leaderboardRequest = [NSURLRequest requestWithURL:leaderboard cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    
+    data = [NSMutableData dataWithCapacity:0];
+    urlConnection = [[NSURLConnection alloc] initWithRequest:leaderboardRequest delegate:self];
+    
+    if( !urlConnection ){
+        data = nil;
+        
+        // TODO: Inform the user that their network is le'broke
+    }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    // This method is called when the server has determined that it
+    // has enough information to create the NSURLResponse object.
+    
+    // It can be called multiple times, for example in the case of a
+    // redirect, so each time we reset the data.
+    
+    [data setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)downloadedData
+{
+    // Append the new data to receivedData.
+    [data appendData:downloadedData];
+}
+
+- (void)connection:(NSURLConnection *)connection
+  didFailWithError:(NSError *)error
+{
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    urlConnection = nil;
+    data = nil;
+    
+    // inform the user
+    NSLog(@"Connection failed! Error - %@ %@",
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    // do something with the data
+    // receivedData is declared as a property elsewhere
+    NSLog(@"Succeeded! Received %d bytes of data",[data length]);
+    
+    
+    
+    // Release the connection and the data object
+    // by setting the properties (declared elsewhere)
+    // to nil.  Note that a real-world app usually
+    // requires the delegate to manage more than one
+    // connection at a time, so these lines would
+    // typically be replaced by code to iterate through
+    // whatever data structures you are using.
+    urlConnection = nil;
+    data = nil;
 }
 
 - (void)didReceiveMemoryWarning

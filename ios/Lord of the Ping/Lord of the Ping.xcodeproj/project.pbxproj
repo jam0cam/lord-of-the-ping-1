@@ -24,6 +24,8 @@
 		184E65FE190B4FD300087BF3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 184E65FC190B4FD300087BF3 /* InfoPlist.strings */; };
 		184E6600190B4FD300087BF3 /* Lord_of_the_PingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E65FF190B4FD300087BF3 /* Lord_of_the_PingTests.m */; };
 		184E660B190B729200087BF3 /* LPLeaderboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E660A190B729200087BF3 /* LPLeaderboardTableViewController.m */; };
+		184E660E190B7B3800087BF3 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E660D190B7B3800087BF3 /* Player.m */; };
+		184E6611190B829400087BF3 /* LeaderboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E6610190B829400087BF3 /* LeaderboardItem.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,10 @@
 		184E65FF190B4FD300087BF3 /* Lord_of_the_PingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Lord_of_the_PingTests.m; sourceTree = "<group>"; };
 		184E6609190B729200087BF3 /* LPLeaderboardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLeaderboardTableViewController.h; sourceTree = "<group>"; };
 		184E660A190B729200087BF3 /* LPLeaderboardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLeaderboardTableViewController.m; sourceTree = "<group>"; };
+		184E660C190B7B3800087BF3 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		184E660D190B7B3800087BF3 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		184E660F190B829400087BF3 /* LeaderboardItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardItem.h; sourceTree = "<group>"; };
+		184E6610190B829400087BF3 /* LeaderboardItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardItem.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,10 @@
 				184E65EA190B4FD300087BF3 /* LPSecondViewController.m */,
 				184E65EC190B4FD300087BF3 /* Images.xcassets */,
 				184E65D5190B4FD300087BF3 /* Supporting Files */,
+				184E660C190B7B3800087BF3 /* Player.h */,
+				184E660D190B7B3800087BF3 /* Player.m */,
+				184E660F190B829400087BF3 /* LeaderboardItem.h */,
+				184E6610190B829400087BF3 /* LeaderboardItem.m */,
 			);
 			path = "Lord of the Ping";
 			sourceTree = "<group>";
@@ -266,8 +276,10 @@
 			files = (
 				184E65E8190B4FD300087BF3 /* LPFirstViewController.m in Sources */,
 				184E65DF190B4FD300087BF3 /* LPAppDelegate.m in Sources */,
+				184E6611190B829400087BF3 /* LeaderboardItem.m in Sources */,
 				184E65EB190B4FD300087BF3 /* LPSecondViewController.m in Sources */,
 				184E65DB190B4FD300087BF3 /* main.m in Sources */,
+				184E660E190B7B3800087BF3 /* Player.m in Sources */,
 				184E660B190B729200087BF3 /* LPLeaderboardTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

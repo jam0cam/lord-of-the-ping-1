@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPLeaderboardTableViewController : UITableViewController
+@interface LPLeaderboardTableViewController : UITableViewController <NSURLConnectionDataDelegate>
 
 @end
