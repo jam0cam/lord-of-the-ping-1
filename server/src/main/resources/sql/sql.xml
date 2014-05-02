@@ -32,7 +32,6 @@
     <resultMap id="leaderboardMap" class="com.lotp.model.LeaderBoardItem">
         <result property="id" column="leaderboard_id" />
         <result property="player.id" column="player_id" />
-        <result property="player.email" column="email" />
         <result property="player.ranking" column="rating" />
         <result property="player.name" column="name" />
         <result property="matchWins" column="win" />
@@ -172,7 +171,9 @@
     </select>
 
     <select id="getLeaderboardItem" resultMap="sql.leaderboardMap">
-        select * from leaderboard where player_id = #playerId#
+        select l.*, p.email from leaderboard l
+        join player p on p.player_id = l.player_id
+        where l.player_id = #playerId#
     </select>
 
     <delete id="deletePasswordReset" parameterClass="java.lang.String">
