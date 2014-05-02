@@ -29,6 +29,15 @@
         <result property="date" column="date" />
     </resultMap>
 
+    <resultMap id="leaderboardMap" class="com.lotp.model.LeaderBoardItem">
+        <result property="id" column="leaderboard_id" />
+        <result property="player.id" column="player_id" />
+        <result property="player.ranking" column="rating" />
+        <result property="player.name" column="name" />
+        <result property="matchWins" column="win" />
+        <result property="matchLosses" column="loss" />
+    </resultMap>
+
     <select id="getById" parameterClass="java.lang.String" resultMap="sql.personMap">
         select * from person where id = #id#
     </select>
@@ -136,7 +145,38 @@
         where reset_hash = #hash#
     </update>
 
+    <update id="updateLeaderboardItemByPlayerId" parameterClass="com.lotp.model.LeaderBoardItem">
+        update leaderboard
+        set
+          rating = #player.ranking#,
+          win = #matchWins#,
+          loss = #matchLosses#
+        where player_id = #player.id#
+    </update>
+
+    <insert id="insertLeaderboardItem" parameterClass="com.lotp.model.LeaderBoardItem">
+        insert into leaderboard
+        (player_id, rating, name, win, loss)
+        values
+        (#player.id#, #player.ranking#, #player.name#, #matchWins#, #matchLosses#)
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getLeaderboard" resultMap="sql.leaderboardMap">
+        select * from leaderboard order by rating desc
+    </select>
+
+    <select id="getLeaderboardItem" resultMap="sql.leaderboardMap">
+        select * from leaderboard where player_id = #playerId#
+    </select>
+
     <delete id="deletePasswordReset" parameterClass="java.lang.String">
         delete from password_reset where reset_hash = #hash#
+    </delete>
+
+    <delete id="clearLeaderBoard">
+        delete from leaderboard
     </delete>
 </sqlMap>

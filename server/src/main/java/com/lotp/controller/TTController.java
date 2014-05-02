@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: jitse
@@ -116,8 +114,39 @@ public class TTController extends BaseController{
 
             Ranking.calculateRanking(pendingMatch);
 
+            //update the player's ranking
             dao.updatePlayerRating(pendingMatch.getP1().getId(), Integer.toString(pendingMatch.getP1().getRanking()), Double.toString(pendingMatch.getP1().getSigma()));
             dao.updatePlayerRating(pendingMatch.getP2().getId(), Integer.toString(pendingMatch.getP2().getRanking()), Double.toString(pendingMatch.getP2().getSigma()));
+
+            //update the leaderboard
+            LeaderBoardItem lbp1 = dao.getLeaderboardItem(pendingMatch.getP1().getId());
+            LeaderBoardItem lbp2 = dao.getLeaderboardItem(pendingMatch.getP2().getId());
+
+            if (lbp1 == null) { //this is a new player and don't have a leaderboard item yet
+                lbp1 = new LeaderBoardItem();
+                lbp1.setPlayer(pendingMatch.getP1());
+            }
+
+            if (lbp2 == null) { //this is a new player and don't have a leaderboard item yet
+                lbp2 = new LeaderBoardItem();
+                lbp2.setPlayer(pendingMatch.getP2());
+            }
+
+
+            lbp1.getPlayer().setRanking(pendingMatch.getP1().getRanking());
+            lbp2.getPlayer().setRanking(pendingMatch.getP2().getRanking());
+
+            if (pendingMatch.getP1Score() > pendingMatch.getP2Score()) {
+                lbp1.setMatchWins(lbp1.getMatchWins()+1);
+                lbp2.setMatchLosses(lbp2.getMatchLosses()+1);
+            } else {
+                lbp1.setMatchLosses(lbp1.getMatchLosses() + 1);
+                lbp2.setMatchWins(lbp2.getMatchWins() + 1);
+            }
+
+            dao.saveLeaderboardItem(lbp1);
+            dao.saveLeaderboardItem(lbp2);
+
 
         } else {
             //on a decline, we send an email to player "1" notifying that player 2 declined.
@@ -215,6 +244,10 @@ public class TTController extends BaseController{
     @RequestMapping(value = "/leaderboard", method = RequestMethod.GET)
     @ResponseBody
     public List<LeaderBoardItem> getLeaderBoard() {
+        return dao.getLeaderboard();
+    }
+
+    public List<LeaderBoardItem> calculateLeaderboard() {
         List<LeaderBoardItem> rval = new ArrayList<LeaderBoardItem>();
 
         List<Player> players = dao.getPlayers();
@@ -256,6 +289,23 @@ public class TTController extends BaseController{
         }
 
         return rval;
+    }
+
+    /**
+     * This will clear the leaderboard table and fill it with newly calculated data
+     */
+    @RequestMapping(value = "/resetLeaderboard", method = RequestMethod.GET)
+    @ResponseBody
+    public String redoLeaderBoard() {
+        List<LeaderBoardItem> lb = calculateLeaderboard();
+        Collections.sort(lb);
+
+        dao.clearLeaderBoard();
+        for (LeaderBoardItem item : lb) {
+            dao.insertLeaderboardItem(item);
+        }
+
+        return "Leaderboard Recalculated";
     }
 
     /**

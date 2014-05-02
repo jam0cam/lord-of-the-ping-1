@@ -5,10 +5,10 @@ package com.lotp.model;
  * Date: 12/4/13
  * Time: 10:56 AM
  */
-public class LeaderBoardItem {
+public class LeaderBoardItem extends BaseObject implements Comparable<LeaderBoardItem>{
     private Player player;
-    private int matchWins;
-    private int matchLosses;
+    private int matchWins = 0;
+    private int matchLosses = 0;
     private double winningPercentage;
 
     public Player getPlayer() {
@@ -41,5 +41,10 @@ public class LeaderBoardItem {
 
     public void setWinningPercentage(double winningPercentage) {
         this.winningPercentage = winningPercentage;
+    }
+
+    @Override
+    public int compareTo(LeaderBoardItem leaderBoardItem) {
+        return leaderBoardItem.getPlayer().getRanking() - player.getRanking();
     }
 }

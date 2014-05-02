@@ -1,6 +1,7 @@
 package com.lotp.dao;
 
 import com.lotp.controller.Util;
+import com.lotp.model.LeaderBoardItem;
 import com.lotp.model.Match;
 import com.lotp.model.Person;
 import com.lotp.model.Player;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
@@ -164,6 +166,41 @@ public class Dao implements InitializingBean {
         sqlMapClientTemplate.update("sql.updatePlayerPassword", params);
     }
 
+    public String insertLeaderboardItem(LeaderBoardItem item) {
+        sqlMapClientTemplate.insert("sql.insertLeaderboardItem", item);
+        return item.getId();
+    }
+
+    public String updateLeaderboardItemByPlayerId(LeaderBoardItem item) {
+        sqlMapClientTemplate.update("sql.updateLeaderboardItemByPlayerId", item);
+        return item.getId();
+    }
+
+    public void clearLeaderBoard() {
+        sqlMapClientTemplate.delete("sql.clearLeaderBoard");
+    }
+
+    public List<LeaderBoardItem> getLeaderboard() {
+        return (List<LeaderBoardItem>)sqlMapClientTemplate.queryForList("sql.getLeaderboard");
+    }
+
+    public LeaderBoardItem getLeaderboardItem(String playerId) {
+        return (LeaderBoardItem) sqlMapClientTemplate.queryForObject("sql.getLeaderboardItem", playerId);
+    }
+
+    /**
+     * Checks whether to do update or insert based on the existence of an id
+     * @param item
+     * @return
+     */
+    public String saveLeaderboardItem(LeaderBoardItem item) {
+        if (StringUtils.hasText(item.getId())) {
+            return updateLeaderboardItemByPlayerId(item);
+        } else {
+            return insertLeaderboardItem(item);
+        }
+    }
+
     public void deletePasswordReset(String hash) {
         sqlMapClientTemplate.delete("sql.deletePasswordReset", hash);
     }
@@ -171,4 +208,5 @@ public class Dao implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         this.sqlMapClientTemplate = new SqlMapClientTemplate(sqlMapClient);
     }
+
 }
