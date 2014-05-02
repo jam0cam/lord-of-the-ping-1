@@ -32,6 +32,7 @@
     <resultMap id="leaderboardMap" class="com.lotp.model.LeaderBoardItem">
         <result property="id" column="leaderboard_id" />
         <result property="player.id" column="player_id" />
+        <result property="player.email" column="email" />
         <result property="player.ranking" column="rating" />
         <result property="player.name" column="name" />
         <result property="matchWins" column="win" />
@@ -165,7 +166,9 @@
     </insert>
 
     <select id="getLeaderboard" resultMap="sql.leaderboardMap">
-        select * from leaderboard order by rating desc
+        select l.*, p.email from leaderboard l
+        join player p on p.player_id = l.player_id
+        order by rating desc
     </select>
 
     <select id="getLeaderboardItem" resultMap="sql.leaderboardMap">
