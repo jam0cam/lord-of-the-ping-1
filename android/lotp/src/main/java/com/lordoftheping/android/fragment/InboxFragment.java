@@ -19,15 +19,15 @@ import android.widget.TextView;
 
 import com.fortysevendeg.swipelistview.SwipeListView;
 import com.fortysevendeg.swipelistview.SwipeListViewListener;
-import com.squareup.picasso.Picasso;
 import com.lordoftheping.android.PingPongApplication;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.event.SignedInEvent;
 import com.lordoftheping.android.event.SignedOutEvent;
 import com.lordoftheping.android.model.Match;
 import com.lordoftheping.android.model.MatchConfirmationResponse;
 import com.lordoftheping.android.service.PingPongService;
 import com.lordoftheping.android.view.InboxActionView;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang.StringUtils;
 

@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 import com.echo.holographlibrary.PieGraph;
 import com.echo.holographlibrary.PieSlice;
-import com.squareup.picasso.Picasso;
 import com.lordoftheping.android.PingPongApplication;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.activity.ProfileActivity;
 import com.lordoftheping.android.model.Match;
 import com.lordoftheping.android.model.Player;
 import com.lordoftheping.android.model.Profile;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang.StringUtils;
 

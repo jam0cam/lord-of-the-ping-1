@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fortysevendeg.swipelistview.SwipeListView;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 
 /**
  * Created by mattkranzler on 12/7/13.

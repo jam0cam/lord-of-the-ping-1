@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.lordoftheping.android.PingPongApplication;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.event.SignedInEvent;
 import com.lordoftheping.android.model.Player;
 import com.lordoftheping.android.preference.PingPongPreferences;

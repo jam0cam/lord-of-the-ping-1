@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 
 import java.util.ArrayList;
 import java.util.List;

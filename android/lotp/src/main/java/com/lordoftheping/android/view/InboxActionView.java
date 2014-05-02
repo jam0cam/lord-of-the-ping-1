@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 
 import de.greenrobot.event.EventBus;
 

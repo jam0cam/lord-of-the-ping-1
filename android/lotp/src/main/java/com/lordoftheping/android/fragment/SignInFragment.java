@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.lordoftheping.android.PingPongApplication;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.model.Player;
 
 import retrofit.Callback;

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,7 +182,16 @@ public class Dao implements InitializingBean {
     }
 
     public List<LeaderBoardItem> getLeaderboard() {
-        return (List<LeaderBoardItem>)sqlMapClientTemplate.queryForList("sql.getLeaderboard");
+        List<LeaderBoardItem> items = (List<LeaderBoardItem>)sqlMapClientTemplate.queryForList("sql.getLeaderboard");
+        for (LeaderBoardItem item : items) {
+            try {
+                item.getPlayer().setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(item.getPlayer().getEmail()) + ".png");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return items;
     }
 
     public LeaderBoardItem getLeaderboardItem(String playerId) {

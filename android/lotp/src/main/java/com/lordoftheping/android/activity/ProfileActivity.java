@@ -3,7 +3,7 @@ package com.lordoftheping.android.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.fragment.ProfileFragment;
 import com.lordoftheping.android.model.Player;
 

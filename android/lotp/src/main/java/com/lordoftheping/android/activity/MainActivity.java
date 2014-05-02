@@ -1,16 +1,14 @@
 package com.lordoftheping.android.activity;
 
-import java.util.Locale;
-
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -19,7 +17,7 @@ import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 import com.lordoftheping.android.PingPongApplication;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.event.SignedInEvent;
 import com.lordoftheping.android.event.SignedOutEvent;
 import com.lordoftheping.android.fragment.AuthFragment;
@@ -28,6 +26,8 @@ import com.lordoftheping.android.fragment.LeaderboardFragment;
 import com.lordoftheping.android.fragment.NewMatchFragment;
 import com.lordoftheping.android.fragment.ProfileFragment;
 import com.lordoftheping.android.preference.PingPongPreferences;
+
+import java.util.Locale;
 
 import de.greenrobot.event.EventBus;
 

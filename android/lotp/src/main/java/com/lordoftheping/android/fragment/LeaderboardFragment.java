@@ -13,11 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 import com.lordoftheping.android.PingPongApplication;
-import com.zappos.android.lotp.R;
+import com.lordoftheping.android.R;
 import com.lordoftheping.android.activity.ProfileActivity;
 import com.lordoftheping.android.model.LeaderboardItem;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang.StringUtils;
 

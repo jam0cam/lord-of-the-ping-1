@@ -18,11 +18,20 @@ android {
             proguardFile getDefaultProguardFile('proguard-android.txt')
         }
     }
+
     productFlavors {
         defaultFlavor {
             proguardFile 'proguard-rules.txt'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
 }
 
 dependencies {
