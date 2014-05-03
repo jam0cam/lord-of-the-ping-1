@@ -102,9 +102,14 @@
     NSLog(@"Succeeded! Received %d bytes of data",[data length]);
     
     NSError *error;
-    _players = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    NSMutableArray *playerData = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
 
-    NSLog(@"%d player data rows", [_players count]);
+    for (int i = 0; i < [playerData count]; i++) {
+        LeaderboardItem *item = [playerData objectAtIndex:i];
+        [_players addObject:item];
+    }
+    
+    NSLog(@"%lu player data rows", (unsigned long)[_players count]);
     
     [self.tableView reloadData];
     
