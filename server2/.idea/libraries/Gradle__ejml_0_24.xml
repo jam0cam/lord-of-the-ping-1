@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: ejml-0.24">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.efficient-java-matrix-library/ejml/0.24/e75c500569bee42492f9e9eabf7a54125cf394eb/ejml-0.24.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.efficient-java-matrix-library/ejml/0.24/dd002b99a8a24fe0133404aef656e198adfff538/ejml-0.24-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

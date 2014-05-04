@@ -1,0 +1,136 @@
+h2 {
+	border-bottom: 1px #ccc dotted;
+	margin-bottom: 20px;
+	padding-bottom: 10px;
+}
+.panel-body {
+	position: relative;
+	text-align: center;
+}
+	.panel-body > img {
+		width: 180px;
+		margin-top: 20px;
+	}
+
+.form-signin, .secondary-block {
+	margin: 0 auto;
+	max-width: 330px;
+	padding: 15px;
+}
+	.form-signin .form-control {
+		position: relative;
+		font-size: 16px;
+		height: auto;
+		padding: 10px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.form-signin input[type="text"]:first-of-type {
+		margin-bottom: -2px;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+	}
+		.form-signin input[type="text"]{
+		margin-bottom: -2px;
+		border-radius: 0;
+	}
+	.form-signin input[type="password"] {
+		margin-bottom: 10px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+	
+.secondary-action {
+	border-top: 1px #ccc dotted;
+	display: block;
+	margin: 10px 0 15px;
+}
+	.secondary-action span {
+		position: relative;
+		top: -15px;
+		padding: 0 15px;
+		background: white;
+	}
+	
+.stats {
+	font-size: 42px;
+	line-height: 120%;
+	position: absolute;	
+	width: 100px;	
+	height: 100px;	
+	top: 72px;	
+	left: 50%;	
+	margin-left: -50px;	
+}
+	.stats span {
+		display: block;
+		font-size: 18px;
+		line-height: 120%;
+	}
+	
+.navbar .text-hide {
+	background: url("../img/logo.png") no-repeat;
+	height: 40px;
+	width: 196px;
+}
+
+.navbar-default, .navbar {
+	border-radius: 0;
+}
+
+.navbar-inverse {
+  background: #34495e;
+  border: none;
+}
+	.navbar-inverse .btn-navbar, .navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav>li>a {
+		color: #1ABC9C; 
+	}
+		.navbar-inverse .navbar-brand {
+			font-weight: bold;
+			margin: 7px 0 0 10px;
+		}
+	.navbar-inverse .nav > li.active > a,
+	.navbar-inverse .nav > li.active > a:hover,
+	.navbar-inverse .nav > li.active > a:focus {
+	  background-color: #1abc9c;
+	  border-bottom-color: #16a085;
+	  border-left: none;
+	  color: #ffffff;
+	}
+.navbar-inverse .navbar-toggle, .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+	border-color: #223243;
+}
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+  background-color: #2C3E50;
+}
+
+
+table .label {
+    width: 40px;
+    display: block;
+    padding: .4em .6em;
+}
+
+.label-success {
+    background: #1abc9c;
+}
+.label-danger {
+    background: #F7464A;
+}
+
+.badge-location {
+    position: relative;
+    top: -10px;
+}
+
+td .img-circle {
+    height: 48px;
+    width: 48px;
+}
+
+.bottom-right{
+    bottom: 0;
+    left: 10px;
+}

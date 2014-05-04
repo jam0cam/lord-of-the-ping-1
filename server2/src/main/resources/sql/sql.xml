@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+        PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="sql">
+
+    <resultMap id="personMap" class="com.lotp.model.Person">
+        <result property="name" column="name" />
+        <result property="id" column="id" />
+    </resultMap>
+
+    <resultMap id="playerMap" class="com.lotp.model.Player">
+        <result property="name" column="name" />
+        <result property="id" column="player_id" />
+        <result property="email" column="email" />
+        <result property="password" column="password" />
+        <result property="avatarUrl" column="avatar_url" />
+        <result property="ranking" column="ranking" />
+        <result property="sigma" column="sigma" />
+    </resultMap>
+
+    <resultMap id="matchMap" class="com.lotp.model.Match">
+        <result property="id" column="match_id" />
+        <result property="p1" column="p1_id" select="sql.getPlayerById" />
+        <result property="p2" column="p2_id" select="sql.getPlayerById" />
+        <result property="p1Score" column="p1_score" />
+        <result property="p2Score" column="p2_score" />
+        <result property="date" column="date" />
+    </resultMap>
+
+    <resultMap id="leaderboardMap" class="com.lotp.model.LeaderBoardItem">
+        <result property="id" column="leaderboard_id" />
+        <result property="player.id" column="player_id" />
+        <result property="player.ranking" column="rating" />
+        <result property="player.name" column="name" />
+        <result property="matchWins" column="win" />
+        <result property="matchLosses" column="loss" />
+    </resultMap>
+
+    <select id="getById" parameterClass="java.lang.String" resultMap="sql.personMap">
+        select * from person where id = #id#
+    </select>
+
+    <select id="getPlayerById" parameterClass="java.lang.String" resultMap="sql.playerMap">
+        select * from player where player_id = #id#
+    </select>
+
+    <select id="getPlayers"  resultMap="sql.playerMap">
+        select * from player
+    </select>
+
+    <select id="getByEmail"  resultMap="sql.playerMap">
+        select * from player where email = #email#
+    </select>
+
+    <select id="getByEmailAndPassword" parameterClass="java.util.Map" resultMap="sql.playerMap">
+        select * from player where email = #email# and password = md5(#password#)
+    </select>
+
+    <select id="getEmails" resultClass="java.lang.String">
+        select email from player order by player_id asc
+    </select>
+
+    <select id="getNames" resultClass="java.lang.String">
+        select name from player order by player_id asc
+    </select>
+
+    <insert id="insertRegistration" parameterClass="com.lotp.model.Player">
+        insert into player
+        (name, email, password, avatar_url, ranking, sigma)
+        values
+        (#name#, #email#, md5(#password#), #avatarUrl#, 1200, 400.00)
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertMatch" parameterClass="com.lotp.model.Match">
+        insert into matches
+        (p1_id, p2_id, p1_score, p2_score, date)
+        values
+        (#p1.id#, #p2.id#, #p1Score#, #p2Score#, #date#)
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertPendingMatch" parameterClass="com.lotp.model.Match">
+        insert into pending
+        (p1_id, p2_id, p1_score, p2_score, date, status)
+        values
+        (#p1.id#, #p2.id#, #p1Score#, #p2Score#, #date#, 'pending')
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getMatchesByPlayer"  resultMap="sql.matchMap">
+        select * from matches where p1_id = #playerId# OR  p2_id = #playerId#
+    </select>
+
+    <select id="getPendingMatchesByPlayer" resultMap="sql.matchMap">
+        select pending_id as match_id, a.* from pending a where status = 'pending' AND p2_id = #playerId#
+    </select>
+
+    <select id="getPendingMatch" resultMap="sql.matchMap">
+        select pending_id as match_id, a.* from pending a where pending_id = #pendinId#
+    </select>
+
+    <delete id="deletePending" parameterClass="java.lang.String">
+        delete from pending where pending_id = #pendingId#
+    </delete>
+
+
+    <select id="getMatchesByPlayerByDateDesc"  resultMap="sql.matchMap">
+        select * from matches where p1_id = #playerId# OR  p2_id = #playerId# order by date desc
+    </select>
+
+    <select id="getAllMatches" resultMap="sql.matchMap">
+        select * from matches order by date asc
+    </select>
+
+    <update id="declineMatch" parameterClass="java.lang.String">
+        update pending set status = 'declined' where pending_id = #pendingId#
+    </update>
+
+    <update id="updatePlayerRating" parameterClass="HashMap">
+        update player
+        set ranking = #ranking#, sigma = #sigma#
+        where player_id = #playerId#
+    </update>
+
+
+    <select id="getPlayerFromHash" parameterClass="java.lang.String" resultMap="sql.playerMap">
+        select p.* from player p
+        join password_reset r on p.player_id = r.player_id
+        where reset_hash = #hash#
+    </select>
+
+    <update id="updatePlayerPassword" parameterClass="HashMap">
+        update player p
+        join password_reset r on r.player_id = p.player_id
+        set password = md5(#password#)
+        where reset_hash = #hash#
+    </update>
+
+    <update id="updateLeaderboardItemByPlayerId" parameterClass="com.lotp.model.LeaderBoardItem">
+        update leaderboard
+        set
+          rating = #player.ranking#,
+          win = #matchWins#,
+          loss = #matchLosses#
+        where player_id = #player.id#
+    </update>
+
+    <insert id="insertLeaderboardItem" parameterClass="com.lotp.model.LeaderBoardItem">
+        insert into leaderboard
+        (player_id, rating, name, win, loss)
+        values
+        (#player.id#, #player.ranking#, #player.name#, #matchWins#, #matchLosses#)
+        <selectKey resultClass="java.lang.String"  keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="getLeaderboard" resultMap="sql.leaderboardMap">
+        select l.*, p.email from leaderboard l
+        join player p on p.player_id = l.player_id
+        order by rating desc
+    </select>
+
+    <select id="getLeaderboardItem" resultMap="sql.leaderboardMap">
+        select l.*, p.email from leaderboard l
+        join player p on p.player_id = l.player_id
+        where l.player_id = #playerId#
+    </select>
+
+    <delete id="deletePasswordReset" parameterClass="java.lang.String">
+        delete from password_reset where reset_hash = #hash#
+    </delete>
+
+    <delete id="clearLeaderBoard">
+        delete from leaderboard
+    </delete>
+</sqlMap>
