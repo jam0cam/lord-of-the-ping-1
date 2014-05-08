@@ -22,9 +22,6 @@ public class LeaderboardItem extends AbstractPersistable<Long> implements Compar
     @Column
     private Integer matchLosses = 0;
 
-    @Column
-    private double winningPercentage;
-
     public Player getPlayer() {
         return player;
     }
@@ -47,14 +44,6 @@ public class LeaderboardItem extends AbstractPersistable<Long> implements Compar
 
     public void setMatchLosses(int matchLosses) {
         this.matchLosses = matchLosses;
-    }
-
-    public double getWinningPercentage() {
-        return winningPercentage;
-    }
-
-    public void setWinningPercentage(double winningPercentage) {
-        this.winningPercentage = winningPercentage;
     }
 
     @Override

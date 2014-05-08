@@ -1,5 +1,6 @@
 package com.lotp.server.security;
 
+import com.lotp.server.controller.Util;
 import com.lotp.server.entity.Player;
 import com.lotp.server.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 
 /**
@@ -41,7 +43,12 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Invalid username/password");
         }
 
-        Player user =  playerRepository.findByEmailAndPassword(email, password);
+        Player user = null;
+        try {
+            user = playerRepository.findByEmailAndPassword(email, Util.md5(password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         if(user == null) {
             throw new BadCredentialsException("Invalid username/password");

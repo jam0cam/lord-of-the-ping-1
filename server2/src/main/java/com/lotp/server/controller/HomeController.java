@@ -25,8 +25,7 @@ public class HomeController extends BaseController {
     TTController ttController;
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody
-    ModelAndView home () {
+    public ModelAndView home () {
 
         List<LeaderboardItem> command = ttController.getLeaderBoard();
         return new ModelAndView("home", "command", command);

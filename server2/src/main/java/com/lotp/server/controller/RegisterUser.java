@@ -21,7 +21,6 @@ public class RegisterUser {
     private String email;
     private String password;
     private String name;
-    private String avatarUrl;
 
     public String getEmail() {
         return email;
@@ -47,20 +46,11 @@ public class RegisterUser {
         this.name = name;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
     public Player toPlayer() {
         Player player = new Player();
         player.setName(name);
         player.setEmail(email);
         player.setPassword(password);
-        player.setAvatarUrl(avatarUrl);
         return player;
     }
 }

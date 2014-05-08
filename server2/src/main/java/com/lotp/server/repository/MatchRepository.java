@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface MatchRepository extends PagingAndSortingRepository<Match, Long> {
     List<Match> findByPlayerOneIdOrPlayerTwoId(long playerOneId, long playerTwoId);
+    List<Match> findByPlayerOneIdOrPlayerTwoIdOrderByDateDesc(long playerOneId, long playerTwoId);
 }

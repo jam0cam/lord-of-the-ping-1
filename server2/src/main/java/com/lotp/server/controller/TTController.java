@@ -206,8 +206,6 @@ public class TTController extends BaseController{
 
         List<Match> result = new ArrayList<>(matches.size());
         for (Match m : matches) {
-            m.getPlayerOne().setAvatarUrl(com.lotp.server.util.Util.getAvatarUrlFromEmail(m.getPlayerOne().getEmail()));
-
             result.add(m);
         }
 
@@ -231,21 +229,26 @@ public class TTController extends BaseController{
         if (!matches.isEmpty()) {
             return Integer.toString(matches.size());
         } else {
-            return "";
+            return "0";
         }
     }
 
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ProfileCommand getProfile(@PathVariable("id") long id) {
+    public ProfileCommand getProfile(@PathVariable("id") Long id) {
         ProfileCommand rval = new ProfileCommand();
 
         Player player = playerRepository.findOne(id);
 
-        Iterable<Match> matches = matchRepository.findAll(new Sort(new Sort.Order(Sort.Direction.DESC, "date")));
+        if( null == player ){
+            return rval;
+        }
+
+        Iterable<Match> matches = matchRepository.findByPlayerOneIdOrPlayerTwoIdOrderByDateDesc(player.getId(), player.getId());
 
         Stats stats = new Stats();
 
+        List<Match> matchList = new ArrayList<>();
         for (Match match : matches) {
             if ( match.getPlayerOne().getId() != id ) {
                 //we want to swap the info and always make p1 = player passed in
@@ -268,8 +271,7 @@ public class TTController extends BaseController{
                 stats.setMatchLosses(stats.getMatchLosses() + 1);
             }
 
-            match.getPlayerTwo().setAvatarUrl(Util.getAvatarUrlFromEmail(match.getPlayerTwo().getEmail()));
-
+            matchList.add(match);
         }
 
         stats.setTotalGames(stats.getGameWins() + stats.getGameLosses());
@@ -281,11 +283,6 @@ public class TTController extends BaseController{
 
         if (stats.getTotalMatches() > 0) {
             stats.setMatchWinPercentage(stats.getMatchWins() * 100 / stats.getTotalMatches());
-        }
-
-        List<Match> matchList = new ArrayList<>();
-        for( Match m : matches ){
-            matchList.add(m);
         }
 
         rval.setMatches(matchList);
@@ -304,12 +301,6 @@ public class TTController extends BaseController{
 
         List<LeaderboardItem> rval = new ArrayList<>();
         for (LeaderboardItem item : leaderboardItems) {
-            try {
-                item.getPlayer().setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(item.getPlayer().getEmail()) + ".png");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-
             rval.add(item);
         }
 
@@ -353,7 +344,6 @@ public class TTController extends BaseController{
             item.setMatchLosses(losses);
             item.setMatchWins(wins);
             item.setPlayer(p);
-            item.setWinningPercentage(((double)(wins))/(losses+wins));
 
             insertLeaderBoardItemCorrectly(rval, item);
         }

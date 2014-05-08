@@ -1,6 +1,7 @@
 package com.lotp.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lotp.server.controller.Util;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -24,9 +25,6 @@ public class Player extends AbstractPersistable<Long> {
     private String name;
 
     @Column
-    private String avatarUrl;
-
-    @Column
     private Integer ranking = 1200;
 
     @Column
@@ -38,27 +36,27 @@ public class Player extends AbstractPersistable<Long> {
     @OneToOne
     private PasswordReset passwordReset;
 
-    public boolean isOwnProfile() {
+    public Boolean isOwnProfile() {
         return ownProfile;
     }
 
-    public void setOwnProfile(boolean ownProfile) {
+    public void setOwnProfile(Boolean ownProfile) {
         this.ownProfile = ownProfile;
     }
 
-    public int getRanking() {
+    public Integer getRanking() {
         return ranking;
     }
 
-    public void setRanking(int ranking) {
+    public void setRanking(Integer ranking) {
         this.ranking = ranking;
     }
 
-    public double getSigma() {
+    public Double getSigma() {
         return sigma;
     }
 
-    public void setSigma(double sigma) {
+    public void setSigma(Double sigma) {
         this.sigma = sigma;
     }
 
@@ -88,11 +86,7 @@ public class Player extends AbstractPersistable<Long> {
     }
 
     public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+        return Util.getAvatarUrlFromEmail(email);
     }
 
     public PasswordReset getPasswordReset() {

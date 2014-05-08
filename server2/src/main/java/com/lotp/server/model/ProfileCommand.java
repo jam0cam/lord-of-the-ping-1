@@ -14,13 +14,13 @@ public class ProfileCommand {
 
     private Player player;
     private Stats stats;
-    private boolean ownProfile;
+    private Boolean ownProfile;
 
-    public boolean isOwnProfile() {
+    public Boolean isOwnProfile() {
         return ownProfile;
     }
 
-    public void setOwnProfile(boolean ownProfile) {
+    public void setOwnProfile(Boolean ownProfile) {
         this.ownProfile = ownProfile;
     }
 

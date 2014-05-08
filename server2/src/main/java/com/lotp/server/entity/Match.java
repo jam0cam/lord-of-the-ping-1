@@ -14,10 +14,10 @@ import java.util.Date;
 @Table(name = "matches")
 public class Match extends AbstractPersistable<Long> {
 
-    @OneToOne(optional = false)
+    @ManyToOne
     private Player playerOne;
 
-    @OneToOne(optional = false)
+    @ManyToOne
     private Player playerTwo;
 
     @Column
@@ -27,6 +27,7 @@ public class Match extends AbstractPersistable<Long> {
     private Integer p2Score;
 
     @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date = new Date();
 
     @Column
@@ -36,13 +37,13 @@ public class Match extends AbstractPersistable<Long> {
     private String status;
 
     @Column
-    private boolean pending;
+    private Boolean pending;
 
-    public boolean isPending() {
+    public Boolean isPending() {
         return pending;
     }
 
-    public void setPending(boolean pending) {
+    public void setPending(Boolean pending) {
         this.pending = pending;
     }
 
@@ -70,19 +71,19 @@ public class Match extends AbstractPersistable<Long> {
         this.playerTwo = playerTwo;
     }
 
-    public int getP1Score() {
+    public Integer getP1Score() {
         return p1Score;
     }
 
-    public void setP1Score(int p1Score) {
+    public void setP1Score(Integer p1Score) {
         this.p1Score = p1Score;
     }
 
-    public int getP2Score() {
+    public Integer getP2Score() {
         return p2Score;
     }
 
-    public void setP2Score(int p2Score) {
+    public void setP2Score(Integer p2Score) {
         this.p2Score = p2Score;
     }
 
