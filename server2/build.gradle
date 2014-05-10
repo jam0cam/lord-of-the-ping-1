@@ -1,7 +1,6 @@
 buildscript {
 	ext {
-//		springBootVersion = '1.0.2.RELEASE'
-        springBootVersion = '1.1.0.BUILD-SNAPSHOT'
+            springBootVersion = '1.1.0.BUILD-SNAPSHOT'
 	}
     repositories {
     	mavenCentral()
@@ -18,9 +17,11 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'war'
 
+sourceCompatibility = 1.7
+
 war {
     baseName = 'lord-of-the-ping-server'
-    version =  '0.1.0'
+    version =  '0.1.2'
 }
 
 configurations {
