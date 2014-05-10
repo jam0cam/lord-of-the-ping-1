@@ -2,14 +2,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:set var="pageTitle" value="Lord of the Ping - Profile" scope="request"/>
-<form:form commandName="command">
     <c:set var="pageType" value="profile" scope="request"/>
     <c:set var="ownProfile" value="${command.ownProfile}" scope="request"/>
-</form:form>
+
 
 
 <jsp:include page="./header.jsp"/>
-<form:form commandName="command">
 
     <script src="/js/Chart.min.js"></script>
     <div class="container">
@@ -120,8 +118,6 @@
         </div>
     </div>
     </div> <!-- /container -->
-
-</form:form>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->

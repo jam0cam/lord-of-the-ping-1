@@ -11,13 +11,14 @@ import com.lotp.server.repository.LeaderboardItemRepository;
 import com.lotp.server.repository.PendingMatchRepository;
 import com.lotp.server.repository.MatchRepository;
 import com.lotp.server.repository.PlayerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -29,6 +30,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/tt")
 public class TTController extends BaseController{
+
+    private Logger logger = LoggerFactory.getLogger(TTController.class);
 
     @Autowired
     private MailSender mailSender;
@@ -221,7 +224,7 @@ public class TTController extends BaseController{
         try{
           id = myUserContext.getCurrentUser().getId();
         } catch (Exception e){
-
+            logger.error("Failed to get current user from user context", e);
         }
 
         List<PendingMatch> matches = pendingMatchRepository.findAllByPlayerTwoId(id);
@@ -250,7 +253,7 @@ public class TTController extends BaseController{
 
         List<Match> matchList = new ArrayList<>();
         for (Match match : matches) {
-            if ( match.getPlayerOne().getId() != id ) {
+            if ( !match.getPlayerOne().getId().equals(id) ) {
                 //we want to swap the info and always make p1 = player passed in
                 match.swapPlayer();
             }
@@ -374,7 +377,7 @@ public class TTController extends BaseController{
      */
     @RequestMapping(value = "/resetRankings", method = RequestMethod.GET)
     @ResponseBody
-    public String initializeRankgings() {
+    public String resetRankings() {
         Iterable<Match> matches = matchRepository.findAll();
 
         for (Match m : matches) {

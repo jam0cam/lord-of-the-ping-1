@@ -5,7 +5,6 @@
 <c:set var="pageType" value="home" scope="request"/>
 
 <jsp:include page="./header.jsp"/>
-  <form:form commandName="command">
     <div class="container full">
 		<h2>Leaderboard</h2>
 		<div class="table-responsive">
@@ -40,6 +39,5 @@
     </div> <!-- /container -->
 
 
-  </form:form>
 
 <jsp:include page="./footer.jsp"/>

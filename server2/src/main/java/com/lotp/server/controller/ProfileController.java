@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/profile")
-public class ProfileController extends BaseController{
+public class ProfileController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
@@ -26,7 +26,7 @@ public class ProfileController extends BaseController{
     TTController ttController;
 
     @RequestMapping(value = "/myProfile", method = RequestMethod.GET)
-    public ModelAndView main () {
+    public ModelAndView showOwnProfile() {
         Long playerId = myUserContext.getCurrentUser().getId();
         logger.debug("Profile load for player id: " + playerId);
 
@@ -37,7 +37,7 @@ public class ProfileController extends BaseController{
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView profileById (@PathVariable("id") long id) {
+    public @ResponseBody ModelAndView profileById (@PathVariable("id") long id) {
         ProfileCommand command = ttController.getProfile(id);
         command.setOwnProfile(false);
         return new ModelAndView("profile", "command", command);
