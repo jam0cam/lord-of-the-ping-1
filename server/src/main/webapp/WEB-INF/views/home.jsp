@@ -35,7 +35,7 @@
 
 
         <div class="bottom-right">
-            <p>Download the Android App <a href="https://www.dropbox.com/s/vcrphd1rbqu4rkq/lotp-release.apk">Here!</a></p>
+            <p>Download the Android App <a href="https://dl.dropboxusercontent.com/u/4338111/lotp-release.apk">Here!</a></p>
         </div>
     </div> <!-- /container -->
 

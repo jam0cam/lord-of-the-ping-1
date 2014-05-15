@@ -13,35 +13,40 @@ import retrofit.client.Response;
 
 public class GoogleSigninFragment extends BaseSignInFragment {
     private static final String TAG = GoogleSigninFragment.class.getName();
+    private static final String PLAYER = "player";
 
-    private Player player;
+    private Player mPlayer;
 
-    public GoogleSigninFragment() {
+
+    public static GoogleSigninFragment newInstance(Player player) {
+        Bundle args = new Bundle();
+        args.putSerializable(PLAYER, player);
+        GoogleSigninFragment fragment = new GoogleSigninFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
-
-    public GoogleSigninFragment(Player player) {
-        this.player = player;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPlayer = (Player)getArguments().getSerializable(PLAYER);
+
         setRetainInstance(true);
         final PingPongApplication application = (PingPongApplication) getActivity().getApplication();
         application.getPingPongService().googleSignin(
                 new Player(
-                        player.getName(),
-                        player.getEmail(),
+                        mPlayer.getName(),
+                        mPlayer.getEmail(),
                         "1",
-                        player.getAvatarUrl()
+                        mPlayer.getAvatarUrl()
                 ),
                 new Callback<Player>() {
                     @Override
                     public void success(Player player, Response response) {
                         Log.d(TAG, "Login successful!");
 
-                        ((PingPongApplication)getActivity().getApplication()).setHasGoogleSignIn(true);
+                        ((PingPongApplication) getActivity().getApplication()).setHasGoogleSignIn(true);
 
                         if (mCallbacks != null) {
                             mCallbacks.signInSuccessful(player);

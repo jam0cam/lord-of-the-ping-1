@@ -503,7 +503,7 @@ public class AuthFragment extends PlusBaseFragment implements SignInFragment.Sig
                                                         @Override
                                                         public void onAnimationEnd(Animator animation) {
                                                             Log.d(TAG, "new GoogleSigninFragment");
-                                                            GoogleSigninFragment fragment = new GoogleSigninFragment(player);
+                                                            GoogleSigninFragment fragment = GoogleSigninFragment.newInstance(player);
                                                             fragment.setSignInCallbacks(AuthFragment.this);
                                                             getFragmentManager()
                                                                     .beginTransaction()
