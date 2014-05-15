@@ -25,6 +25,13 @@ public class Player implements Serializable {
         this.password = password;
     }
 
+    public Player(String name, String email, String password, String url) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.avatarUrl = url;
+    }
+
     public String getId() {
         return id;
     }

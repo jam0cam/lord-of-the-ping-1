@@ -109,6 +109,10 @@ public abstract class PullToRefreshFragment extends ListFragment implements OnRe
 
     protected void setLoadSuccessful() {
         mPullToRefreshLayout.setRefreshComplete();
+        dismissLoading();
+    }
+
+    protected void dismissLoading() {
         AnimatorSet set = new AnimatorSet();
         List<Animator> fadeOut = new ArrayList<Animator>();
         fadeOut.add(fadeOutProgressCont());

@@ -86,6 +86,22 @@ public class TTController extends BaseController{
         }
     }
 
+    @RequestMapping(value= "/googleSignin", method=RequestMethod.POST)
+    @ResponseBody
+    public Player googleSignin(@RequestBody RegisterUser player) {
+        if (!StringUtils.hasText(player.getEmail())) {
+            throw new InvalidUserNameOrPasswordException();
+        }
+
+        Player p = dao.getByEmail(player.getEmail());
+        if (p == null) {
+            //this is a new user, register him and then return his data
+            return register(player);
+        } else {
+            return p;
+        }
+    }
+
     @RequestMapping(value= "/register", method=RequestMethod.POST)
     @ResponseBody
     public Player register(@RequestBody RegisterUser player) {
@@ -220,7 +236,9 @@ public class TTController extends BaseController{
                 stats.setMatchLosses(stats.getMatchLosses() + 1);
             }
 
-            match.getP2().setAvatarUrl(Util.getAvatarUrlFromEmail(match.getP2().getEmail()));
+            if (!StringUtils.hasText(match.getP2().getAvatarUrl())) {
+                match.getP2().setAvatarUrl(Util.getAvatarUrlFromEmail(match.getP2().getEmail()));
+            }
 
         }
 

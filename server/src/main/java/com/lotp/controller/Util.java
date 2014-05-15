@@ -1,6 +1,7 @@
 package com.lotp.controller;
 
 import com.lotp.model.Player;
+import com.lotp.model.RegisterUser;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;

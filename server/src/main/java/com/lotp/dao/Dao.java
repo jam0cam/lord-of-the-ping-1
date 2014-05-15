@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,10 @@ public class Dao implements InitializingBean {
     public Player getPlayerById(String id) {
         Player p = (Player)sqlMapClientTemplate.queryForObject("sql.getPlayerById", id);
         try {
-            p.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(p.getEmail()) + ".png");
+            if (!StringUtils.hasText(p.getAvatarUrl())) {
+                p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -69,7 +71,9 @@ public class Dao implements InitializingBean {
         Player rval = (Player)sqlMapClientTemplate.queryForObject("sql.getByEmailAndPassword", params);
 
         try {
-            rval.setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(rval.getEmail()) + ".png");
+            if (!StringUtils.hasText(rval.getAvatarUrl())) {
+                rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+            }
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -88,7 +92,9 @@ public class Dao implements InitializingBean {
     public Player getByEmail(String email) {
         Player rval = (Player)sqlMapClientTemplate.queryForObject("sql.getByEmail", email);
         try {
-            rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+            if (!StringUtils.hasText(rval.getAvatarUrl())) {
+                rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+            }
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -101,7 +107,9 @@ public class Dao implements InitializingBean {
 
         for (Player p : list) {
             try {
-                p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
+                if (!StringUtils.hasText(p.getAvatarUrl())) {
+                    p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
+                }
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -128,7 +136,9 @@ public class Dao implements InitializingBean {
         //we need to fill out the avatars for player 1s only. Player 2 will see the pending match, and therefore
         //will want to know who player 1 is
         for (Match m : matches) {
-            m.getP1().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP1().getEmail()));
+            if (!StringUtils.hasText(m.getP1().getAvatarUrl())) {
+                m.getP1().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP1().getEmail()));
+            }
         }
         return matches;
     }
@@ -184,10 +194,8 @@ public class Dao implements InitializingBean {
     public List<LeaderBoardItem> getLeaderboard() {
         List<LeaderBoardItem> items = (List<LeaderBoardItem>)sqlMapClientTemplate.queryForList("sql.getLeaderboard");
         for (LeaderBoardItem item : items) {
-            try {
-                item.getPlayer().setAvatarUrl("http://www.gravatar.com/avatar/" + Util.md5(item.getPlayer().getEmail()) + ".png");
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
+            if (!StringUtils.hasText(item.getPlayer().getAvatarUrl())) {
+                Util.getAvatarUrlFromEmail(item.getPlayer().getEmail());
             }
         }
 

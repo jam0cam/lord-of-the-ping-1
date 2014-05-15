@@ -120,7 +120,9 @@
             <com.echo.holographlibrary.PieGraph
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/profile_matches_graph" />
+                android:id="@+id/profile_matches_graph"
+                android:clickable="false"
+                />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -164,7 +166,9 @@
             <com.echo.holographlibrary.PieGraph
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/profile_games_graph" />
+                android:id="@+id/profile_games_graph"
+                android:clickable="false"
+                />
 
             <LinearLayout
                 android:orientation="vertical"

@@ -5,17 +5,22 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.plus.PlusClient;
 import com.lordoftheping.android.PingPongApplication;
 import com.lordoftheping.android.R;
 import com.lordoftheping.android.event.SignedInEvent;
@@ -31,11 +36,15 @@ import java.util.Locale;
 
 import de.greenrobot.event.EventBus;
 
-public class MainActivity extends Activity implements ActionBar.TabListener {
+public class MainActivity extends Activity implements ActionBar.TabListener, GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     public static final int TAB_LEADERBOARD = 0;
     public static final int TAB_NEW_MATCH = 1;
     public static final int TAB_PROFILE = 2;
+    public static final int TAB_TEST = 3;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -55,11 +64,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     private DrawerLayout mDrawerLayout;
     private InboxFragment mInboxFragment;
     private PingPongApplication mApplication;
+    private PlusClient mPlusClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+//        Crashlytics.start(this);
         mApplication = (PingPongApplication) getApplication();
 
         setContentView(R.layout.activity_main);
@@ -160,12 +170,49 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sign_out:
+                ((PingPongApplication)getApplication()).setManuallySignedOut(true);
+                googleSignOut();
                 PingPongPreferences.signOut(this);
                 mApplication.setCurrentPlayer(null);
                 EventBus.getDefault().post(new SignedOutEvent());
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void googleSignOut() {
+
+        Log.d(TAG, "google signOut");
+
+        PingPongApplication app = (PingPongApplication)getApplication();
+
+        if (app.isHasGoogleSignIn()) {
+            mPlusClient = new PlusClient.Builder(this, this, this).setScopes(Scopes.PLUS_LOGIN,
+                    Scopes.PROFILE, Scopes.PLUS_ME, "https://www.googleapis.com/auth/userinfo.email").build();
+
+            // We only want to sign out if we're connected.
+            if (!mPlusClient.isConnected()) {
+                mPlusClient.connect();
+            } else {
+                completeLogout();
+            }
+        }
+    }
+
+    private void completeLogout() {
+        // Clear the default account in order to allow the user to potentially choose a
+        // different account from the account chooser.
+        mPlusClient.clearDefaultAccount();
+
+        // Disconnect from Google Play Services, then reconnect in order to restart the
+        // process from scratch.
+
+        Log.d(TAG, "initiatePlusClientDisconnect");
+        if (mPlusClient.isConnected()) {
+            mPlusClient.disconnect();
+        }
+
+        Log.v(TAG, "Sign out successful!");
     }
 
     @Override
@@ -191,6 +238,22 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d("onConnected", "mainActivity");
+        completeLogout();
+    }
+
+    @Override
+    public void onDisconnected() {
+        Log.d("onDisconnected", "mainActivity");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        //don't need to do anything
     }
 
     /**
@@ -251,6 +314,8 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
                     return getString(R.string.title_new_match).toUpperCase(l);
                 case TAB_PROFILE:
                     return getString(R.string.title_profile).toUpperCase(l);
+                case TAB_TEST:
+                    return "Test";
             }
             return null;
         }
@@ -270,5 +335,23 @@ public class MainActivity extends Activity implements ActionBar.TabListener {
         mViewPager.getAdapter().notifyDataSetChanged();
         invalidateOptionsMenu();
         refreshInboxDrawerState();
+    }
+
+    /**
+     * An earlier connection failed, and we're now receiving the result of the resolution attempt
+     * by PlusClient.
+     *
+     */
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent intent) {
+        Log.d("result", "onActivityResult");
+
+        AuthFragment fragment =
+                (AuthFragment) getFragmentManager().findFragmentByTag(
+                        "android:switcher:"+R.id.pager+":" + TAB_PROFILE);
+
+        if (fragment != null) {
+            fragment.successfullyResolved(requestCode, responseCode);
+        }
     }
 }

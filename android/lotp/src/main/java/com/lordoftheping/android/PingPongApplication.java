@@ -15,6 +15,8 @@ public class PingPongApplication extends Application {
 
     private PingPongService mPingPongService;
     private Player mCurrentPlayer;
+    private boolean mManuallySignedOut = false;
+    private boolean mHasGoogleSignIn = false;
 
     @Override
     public void onCreate() {
@@ -38,5 +40,21 @@ public class PingPongApplication extends Application {
 
     public void setCurrentPlayer(Player currentPlayer) {
         mCurrentPlayer = currentPlayer;
+    }
+
+    public boolean isManuallySignedOut() {
+        return mManuallySignedOut;
+    }
+
+    public void setManuallySignedOut(boolean manuallySignedOut) {
+        this.mManuallySignedOut = manuallySignedOut;
+    }
+
+    public boolean isHasGoogleSignIn() {
+        return mHasGoogleSignIn;
+    }
+
+    public void setHasGoogleSignIn(boolean hasGoogleSignIn) {
+        this.mHasGoogleSignIn = hasGoogleSignIn;
     }
 }

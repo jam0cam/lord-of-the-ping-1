@@ -11,39 +11,38 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by mattkranzler on 12/5/13.
- */
-public class SignInFragment extends BaseSignInFragment {
+public class GoogleSigninFragment extends BaseSignInFragment {
+    private static final String TAG = GoogleSigninFragment.class.getName();
 
-    private static final String TAG = SignInFragment.class.getName();
-    private static final String ARG_EMAIL = "email";
-    private static final String ARG_PASSWORD = "password";
+    private Player player;
 
-
-    public static SignInFragment newInstance(String email, String password) {
-        Bundle args = new Bundle();
-        args.putString(ARG_EMAIL, email);
-        args.putString(ARG_PASSWORD, password);
-        SignInFragment fragment = new SignInFragment();
-        fragment.setArguments(args);
-        return fragment;
+    public GoogleSigninFragment() {
     }
+
+    public GoogleSigninFragment(Player player) {
+        this.player = player;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         final PingPongApplication application = (PingPongApplication) getActivity().getApplication();
-        application.getPingPongService().signIn(
+        application.getPingPongService().googleSignin(
                 new Player(
-                        getArguments().getString(ARG_EMAIL),
-                        getArguments().getString(ARG_PASSWORD)
+                        player.getName(),
+                        player.getEmail(),
+                        "1",
+                        player.getAvatarUrl()
                 ),
                 new Callback<Player>() {
                     @Override
                     public void success(Player player, Response response) {
                         Log.d(TAG, "Login successful!");
+
+                        ((PingPongApplication)getActivity().getApplication()).setHasGoogleSignIn(true);
+
                         if (mCallbacks != null) {
                             mCallbacks.signInSuccessful(player);
                         }
@@ -66,7 +65,7 @@ public class SignInFragment extends BaseSignInFragment {
         if (isAdded()) {
             getFragmentManager()
                     .beginTransaction()
-                    .remove(SignInFragment.this)
+                    .remove(GoogleSigninFragment.this)
                     .commitAllowingStateLoss();
         }
     }

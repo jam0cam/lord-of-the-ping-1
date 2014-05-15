@@ -90,6 +90,44 @@
 
             </LinearLayout>
 
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/plus_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/dotted_line"
+                    android:layerType="software"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/auth_or_lbl"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/dotted_line"
+                    android:layerType="software"/>
+
+            </LinearLayout>
+
             <Button
                 style="@style/SecondaryButtonStyle"
                 android:id="@+id/sign_in_register_btn"

@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.common.SignInButton;
 import com.lordoftheping.android.PingPongApplication;
 import com.lordoftheping.android.R;
+import com.lordoftheping.android.activity.PlusBaseFragment;
 import com.lordoftheping.android.event.SignedInEvent;
 import com.lordoftheping.android.model.Player;
 import com.lordoftheping.android.preference.PingPongPreferences;
@@ -27,12 +31,9 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by mattkranzler on 12/5/13.
  */
-public class AuthFragment extends DialogFragment implements SignInFragment.SignInCallbacks, RegisterFragment.RegisterCallbacks {
-
-    public static interface AuthCallbacks {
-        void playerSignedIn(Player player);
-        void authCancelled();
-    }
+public class AuthFragment extends PlusBaseFragment implements SignInFragment.SignInCallbacks, RegisterFragment.RegisterCallbacks {
+    private static final String TAG = AuthFragment.class.getSimpleName();
+    private SignInButton mPlusSignInButton;
 
     private static final String STATE_REGISTER_VISIBLE = "register_visible";
 
@@ -64,6 +65,11 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
     private PingPongApplication mApplication;
     private AuthCallbacks mCallbacks;
 
+    public static interface AuthCallbacks {
+        void playerSignedIn(Player player);
+        void authCancelled();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +78,7 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "launching AuthFragment");
         View root = inflater.inflate(R.layout.fragment_auth, container, false);
         mSignInCont = (ViewGroup) root.findViewById(R.id.auth_sign_in_cont);
         mRegisterCont = (ViewGroup) root.findViewById(R.id.auth_register_cont);
@@ -97,6 +104,18 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
         mFailureCont = (ViewGroup) root.findViewById(R.id.auth_failure_cont);
         mFailureLbl = (TextView) root.findViewById(R.id.auth_failure_lbl);
         mTryAgainBtn = (Button) root.findViewById(R.id.auth_try_again_btn);
+
+        mPlusSignInButton = (SignInButton) root.findViewById(R.id.plus_sign_in_button);
+//
+//
+//        Button signOutButton = (Button) root.findViewById(R.id.plus_sign_out_button);
+//        signOutButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                signOut();
+//            }
+//        });
+
         return root;
     }
 
@@ -302,16 +321,7 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
 
                                                             @Override
                                                             public void onAnimationEnd(Animator animation) {
-                                                                RegisterFragment fragment = RegisterFragment.newInstance(
-                                                                        mRegisterName.getText().toString(),
-                                                                        mRegisterEmail.getText().toString(),
-                                                                        mRegisterPassword.getText().toString()
-                                                                );
-                                                                fragment.setRegisterCallbacks(AuthFragment.this);
-                                                                getFragmentManager()
-                                                                        .beginTransaction()
-                                                                        .add(fragment, RegisterFragment.class.getName())
-                                                                        .commit();
+                                                                submitRegistration();
                                                             }
                                                         }
 
@@ -323,6 +333,29 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
                         .start();
             }
         });
+
+        // Set a listener to connect the user when the G+ button is clicked.
+        mPlusSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "google signin clicked");
+                ((PingPongApplication) getActivity().getApplication()).setManuallySignedOut(false);
+                signIn();
+            }
+        });
+    }
+
+    private void submitRegistration() {
+        RegisterFragment fragment = RegisterFragment.newInstance(
+                mRegisterName.getText().toString(),
+                mRegisterEmail.getText().toString(),
+                mRegisterPassword.getText().toString()
+        );
+        fragment.setRegisterCallbacks(AuthFragment.this);
+        getFragmentManager()
+                .beginTransaction()
+                .add(fragment, RegisterFragment.class.getName())
+                .commit();
     }
 
     private void dismissKeyboard() {
@@ -435,4 +468,59 @@ public class AuthFragment extends DialogFragment implements SignInFragment.SignI
                 )
                 .start();
     }
+
+    @Override
+    protected void onPlusClientSignIn() {
+        Log.d(TAG, "onPlusClientSignIn clicked");
+        if (!TextUtils.isEmpty(getPlusClient().getAccountName()) && getPlusClient().getCurrentPerson() != null) {
+
+            final Player player = new Player(getPlusClient().getCurrentPerson().getDisplayName(), getPlusClient().getAccountName(), "1");
+            player.setAvatarUrl(getPlusClient().getCurrentPerson().getImage().getUrl());
+
+            mSignInCont
+                    .animate()
+                    .alpha(0)
+                    .setListener(
+                            new AnimatorListenerAdapter() {
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    Log.d(TAG, "mSignInCont disappear animation end");
+                                    mSignInCont.setVisibility(View.GONE);
+                                    mDoingStuffLbl.setText(R.string.auth_signing_in_lbl);
+                                    mDoingStuffCont
+                                            .animate()
+                                            .alpha(1)
+                                            .setListener(
+                                                    new AnimatorListenerAdapter() {
+                                                        @Override
+                                                        public void onAnimationStart(Animator animation) {
+                                                            Log.d(TAG, "mDoingStuffCont appear animation start");
+                                                            mDoingStuffCont.setAlpha(0);
+                                                            mDoingStuffCont.setVisibility(View.VISIBLE);
+                                                        }
+
+                                                        @Override
+                                                        public void onAnimationEnd(Animator animation) {
+                                                            Log.d(TAG, "new GoogleSigninFragment");
+                                                            GoogleSigninFragment fragment = new GoogleSigninFragment(player);
+                                                            fragment.setSignInCallbacks(AuthFragment.this);
+                                                            getFragmentManager()
+                                                                    .beginTransaction()
+                                                                    .add(fragment, GoogleSigninFragment.class.getName())
+                                                                    .commit();
+                                                        }
+                                                    }
+
+                                            )
+                                            .start();
+                                }
+                            }
+                    )
+                    .start();
+
+
+        }
+    }
+
 }

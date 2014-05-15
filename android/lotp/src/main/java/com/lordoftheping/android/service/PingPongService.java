@@ -36,6 +36,9 @@ public interface PingPongService {
     @POST("/tt/signin")
     void signIn(@Body Player player, Callback<Player> signInCallback);
 
+    @POST(("/tt/googleSignin"))
+    void googleSignin(@Body Player player, Callback<Player> signInCallback);
+
     @POST("/tt/register")
     void register(@Body Player player, Callback<Player> registerCallback);
 

@@ -56,6 +56,7 @@
     <string name="sign_in_error">We were unable to sign you in. Your email address or password may be invalid.</string>
     <string name="registration_error">We were unable to register you. The email address may already be in use.</string>
     <string name="try_again_btn_lbl">Try Again</string>
+    <string name="plus_sign_out">Switch Google+ account</string>
 
     <!-- Menu -->
     <string name="action_inbox">Inbox</string>

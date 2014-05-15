@@ -21,6 +21,7 @@ import com.lordoftheping.android.activity.ProfileActivity;
 import com.lordoftheping.android.model.Match;
 import com.lordoftheping.android.model.Player;
 import com.lordoftheping.android.model.Profile;
+import com.lordoftheping.android.util.Util;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang.StringUtils;
@@ -81,7 +82,8 @@ public class ProfileFragment extends PullToRefreshFragment implements OnRefreshL
         setupListView();
         mName.setText(mPlayer.getName());
         String avatarUrl;
-        if (StringUtils.isNotEmpty(avatarUrl = mPlayer.getAvatarUrl())) {
+        if (StringUtils.isNotEmpty(mPlayer.getAvatarUrl())) {
+            avatarUrl = Util.getImageWithNewSize(mPlayer.getAvatarUrl(), 200);
             Picasso.with(getActivity()).load(avatarUrl).into(mAvatar);
         }
 
@@ -126,7 +128,6 @@ public class ProfileFragment extends PullToRefreshFragment implements OnRefreshL
     }
 
     public void refreshData(boolean setLoading) {
-        super.refreshData(setLoading);
         mApplication.getPingPongService().getProfile(
                 Long.valueOf(mPlayer.getId()),
                 new Callback<Profile>() {

@@ -14,33 +14,12 @@ import java.util.Map;
 public class Test {
 
     public static void main(String[] args){
-
-        GameInfo gameInfo = new GameInfo(1200.0, 1200.0 / 3.0, 200.0, 1200.0 / 300.0, 0.03);
-
-
-        TwoPlayerTrueSkillCalculator calculator;
-        calculator = new TwoPlayerTrueSkillCalculator();
-
-        Player<Integer> player1 = new Player<Integer>(1);
-        Player<Integer> player2 = new Player<Integer>(2);
-
-        Team team1 = new Team(player1, gameInfo.getDefaultRating());
-        Team team2 = new Team(player2, gameInfo.getDefaultRating());
-        Collection<ITeam> teams = Team.concat(team1, team2);
-
-        Rating player1NewRating = null;
-        Rating player2NewRating = null;
-
-        for (int i=0; i<50; i++) {
-            Map<IPlayer, Rating> newRatings = calculator.calculateNewRatings(gameInfo, teams, 1, 2);
-            player1NewRating = newRatings.get(player1);
-            player2NewRating = newRatings.get(player2);
+        String s = "https://lh4.googleusercontent.com/-D8kX_PGUVTc/AAAAAAAAAAI/AAAAAAAAzCI/odnsVyvbpJo/photo.jpg?sz=50";
+        if (s.contains("sz=")) {
+            String newString = s.substring(0, s.indexOf("sz=") + 3);
+            System.out.println(newString);
         }
-
-
-        System.out.println("hello world");
-
-
     }
+
 
 }

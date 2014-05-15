@@ -6,7 +6,7 @@ android {
     buildToolsVersion "19.0.3"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 19
     }
     repositories {
@@ -49,4 +49,6 @@ dependencies {
     compile 'com.crashlytics.android:crashlytics:1.+'
 	compile project(':HoloGraphLibrary')
 	compile project(':swipelistview')
+    compile 'com.google.android.gms:play-services:4.2.42'
+    compile 'com.android.support:appcompat-v7:19.+'
 }
