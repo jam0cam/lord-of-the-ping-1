@@ -12,10 +12,21 @@ android {
     repositories {
         maven { url 'http://download.crashlytics.com/maven' }
     }
+    
+    signingConfigs {
+        release {
+            storeFile file("myreleasekey.keystore")
+            storePassword "password"
+            keyAlias "MyReleaseKey"
+            keyPassword "password"
+        }
+    }
+    
     buildTypes {
         release {
             runProguard false
             proguardFile getDefaultProguardFile('proguard-android.txt')
+            signingConfig signingConfigs.release
         }
     }
 
