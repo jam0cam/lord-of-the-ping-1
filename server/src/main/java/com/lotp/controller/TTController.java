@@ -98,6 +98,12 @@ public class TTController extends BaseController{
             //this is a new user, register him and then return his data
             return register(player);
         } else {
+
+            //update the player's avatar URL
+            if (StringUtils.hasText(player.getAvatarUrl())) {
+                p.setAvatarUrl(player.getAvatarUrl());
+                dao.updateAvatar(p);
+            }
             return p;
         }
     }

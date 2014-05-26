@@ -2,6 +2,7 @@ package com.lordoftheping.android;
 
 import android.app.Application;
 
+import com.google.android.gms.plus.PlusClient;
 import com.lordoftheping.android.model.Player;
 import com.lordoftheping.android.preference.PingPongPreferences;
 import com.lordoftheping.android.service.PingPongService;
@@ -16,7 +17,7 @@ public class PingPongApplication extends Application {
     private PingPongService mPingPongService;
     private Player mCurrentPlayer;
     private boolean mManuallySignedOut = false;
-    private boolean mHasGoogleSignIn = false;
+    private PlusClient mPlusClient;
 
     @Override
     public void onCreate() {
@@ -50,11 +51,11 @@ public class PingPongApplication extends Application {
         this.mManuallySignedOut = manuallySignedOut;
     }
 
-    public boolean isHasGoogleSignIn() {
-        return mHasGoogleSignIn;
+    public PlusClient getPlusClient() {
+        return mPlusClient;
     }
 
-    public void setHasGoogleSignIn(boolean hasGoogleSignIn) {
-        this.mHasGoogleSignIn = hasGoogleSignIn;
+    public void setPlusClient(PlusClient plusClient) {
+        this.mPlusClient = plusClient;
     }
 }

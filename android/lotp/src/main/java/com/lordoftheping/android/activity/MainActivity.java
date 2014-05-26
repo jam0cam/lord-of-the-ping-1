@@ -19,7 +19,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.plus.PlusClient;
 import com.lordoftheping.android.PingPongApplication;
 import com.lordoftheping.android.R;
@@ -160,7 +159,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Goo
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -186,13 +185,12 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Goo
 
         PingPongApplication app = (PingPongApplication)getApplication();
 
-        if (app.isHasGoogleSignIn()) {
-            mPlusClient = new PlusClient.Builder(this, this, this).setScopes(Scopes.PLUS_LOGIN,
-                    Scopes.PROFILE, Scopes.PLUS_ME, "https://www.googleapis.com/auth/userinfo.email").build();
+        mPlusClient = ((PingPongApplication)getApplication()).getPlusClient();
 
+        if (mPlusClient != null) {
             // We only want to sign out if we're connected.
             if (!mPlusClient.isConnected()) {
-                mPlusClient.connect();
+//                mPlusClient.connect();
             } else {
                 completeLogout();
             }

@@ -45,9 +45,6 @@ public class GoogleSigninFragment extends BaseSignInFragment {
                     @Override
                     public void success(Player player, Response response) {
                         Log.d(TAG, "Login successful!");
-
-                        ((PingPongApplication) getActivity().getApplication()).setHasGoogleSignIn(true);
-
                         if (mCallbacks != null) {
                             mCallbacks.signInSuccessful(player);
                         }

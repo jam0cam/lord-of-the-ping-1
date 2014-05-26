@@ -219,6 +219,10 @@ public class Dao implements InitializingBean {
         }
     }
 
+    public void updateAvatar(Player player) {
+        sqlMapClientTemplate.update("sql.updateAvatar", player);
+    }
+
     public void deletePasswordReset(String hash) {
         sqlMapClientTemplate.delete("sql.deletePasswordReset", hash);
     }

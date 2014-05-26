@@ -15,10 +15,10 @@ android {
     
     signingConfigs {
         release {
-            storeFile file("myreleasekey.keystore")
-            storePassword "password"
-            keyAlias "MyReleaseKey"
-            keyPassword "password"
+            storeFile file("lotp.keystore")
+            storePassword "lordoftheping"
+            keyAlias "lotp"
+            keyPassword "lordoftheping"
         }
     }
     

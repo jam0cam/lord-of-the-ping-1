@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.plus.model.people.Person;
 import com.lordoftheping.android.PingPongApplication;
 import com.lordoftheping.android.R;
 import com.lordoftheping.android.activity.PlusBaseFragment;
@@ -472,10 +473,15 @@ public class AuthFragment extends PlusBaseFragment implements SignInFragment.Sig
     @Override
     protected void onPlusClientSignIn() {
         Log.d(TAG, "onPlusClientSignIn clicked");
-        if (!TextUtils.isEmpty(getPlusClient().getAccountName()) && getPlusClient().getCurrentPerson() != null) {
 
-            final Player player = new Player(getPlusClient().getCurrentPerson().getDisplayName(), getPlusClient().getAccountName(), "1");
-            player.setAvatarUrl(getPlusClient().getCurrentPerson().getImage().getUrl());
+        Person person = getPlusClient().getCurrentPerson();
+        if (person == null) {
+            Log.w(TAG, "Google peson = NULL");
+        }
+        if (!TextUtils.isEmpty(getPlusClient().getAccountName()) && person != null) {
+
+            final Player player = new Player(person.getDisplayName(), getPlusClient().getAccountName(), "1");
+            player.setAvatarUrl(person.getImage().getUrl());
 
             mSignInCont
                     .animate()

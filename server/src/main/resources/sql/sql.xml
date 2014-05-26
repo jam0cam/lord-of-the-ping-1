@@ -76,6 +76,12 @@
         </selectKey>
     </insert>
 
+    <update id="updateAvatar" parameterClass="com.lotp.model.Player">
+        update player
+        set avatar_url = #avatarUrl#
+        where player_id = #id#
+    </update>
+
     <insert id="insertMatch" parameterClass="com.lotp.model.Match">
         insert into matches
         (p1_id, p2_id, p1_score, p2_score, date)

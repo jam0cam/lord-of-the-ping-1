@@ -16,7 +16,6 @@
       </GradleProjectSettings>
     </option>
     <option name="gradleVmOptions" value="-XX:MaxHeapSize=256m -Xmx256m" />
-    <option name="offlineWork" value="true" />
   </component>
 </project>
 

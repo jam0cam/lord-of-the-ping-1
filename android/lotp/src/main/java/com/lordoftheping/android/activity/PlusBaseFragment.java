@@ -45,6 +45,8 @@ public abstract class PlusBaseFragment extends DialogFragment
         mPlusClient =
                 new PlusClient.Builder(getActivity(), this, this).setScopes(Scopes.PLUS_LOGIN,
                         Scopes.PROFILE, Scopes.PLUS_ME, "https://www.googleapis.com/auth/userinfo.email").build();
+
+        ((PingPongApplication)getActivity().getApplication()).setPlusClient(mPlusClient);
     }
 
     /**

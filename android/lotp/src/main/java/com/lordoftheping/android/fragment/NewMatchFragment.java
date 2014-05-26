@@ -46,7 +46,7 @@ public class NewMatchFragment extends Fragment implements AdapterView.OnItemClic
     private static final String TAG = NewMatchFragment.class.getName();
     private static final String STATE_OPPONENT = "opponent";
     private static final String STATE_OPPONENTS = "opponents";
-    private static final DateFormat MATCH_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    private static final DateFormat MATCH_DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
     private static final String[] WINS_ARRAY = {
             "0",

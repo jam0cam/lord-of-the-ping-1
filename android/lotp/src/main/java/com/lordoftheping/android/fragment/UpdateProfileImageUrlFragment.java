@@ -1,4 +1,6 @@
 package com.lordoftheping.android.fragment;
 
-public class UpdateProfileImageUrlFragment {
+import android.app.Fragment;
+
+public class UpdateProfileImageUrlFragment extends Fragment {
 }
