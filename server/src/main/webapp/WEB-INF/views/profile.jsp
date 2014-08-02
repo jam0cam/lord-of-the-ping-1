@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:set var="pageTitle" value="Lord of the Ping - Profile" scope="request"/>
@@ -17,7 +18,16 @@
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <img alt="180x180" height="180" width="180" class="img-circle" src="${command.player.avatarUrl}?size=180">
+
+                    <c:choose>
+                        <c:when test="${fn:containsIgnoreCase(command.player.avatarUrl, 'google')}">
+                            <img alt="180x180" height="180" width="180" class="img-circle" src="${command.player.avatarUrl}?sz=180">
+                        </c:when>
+                        <c:otherwise>
+                            <img alt="180x180" height="180" width="180" class="img-circle" src="${command.player.avatarUrl}?size=180">
+                        </c:otherwise>
+                    </c:choose>
+
                     <h3 class="text-center">${command.player.name}</h3>
                     <h4>(${command.player.ranking})</h4>
                 </div>

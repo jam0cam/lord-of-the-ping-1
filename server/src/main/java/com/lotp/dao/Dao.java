@@ -34,8 +34,14 @@ public class Dao implements InitializingBean {
     public Player getPlayerById(String id) {
         Player p = (Player)sqlMapClientTemplate.queryForObject("sql.getPlayerById", id);
         try {
-            if (!StringUtils.hasText(p.getAvatarUrl())) {
-                p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
+            if (p != null) {
+                if (!StringUtils.hasText(p.getAvatarUrl())) {
+                    p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
+                }
+
+                if (p.getAvatarUrl().contains("google") && p.getAvatarUrl().contains("?sz=")) {
+                    p.setAvatarUrl(p.getAvatarUrl().substring(0, p.getAvatarUrl().indexOf("?sz=")));
+                }
             }
 
         } catch (Exception e) {
@@ -71,9 +77,16 @@ public class Dao implements InitializingBean {
         Player rval = (Player)sqlMapClientTemplate.queryForObject("sql.getByEmailAndPassword", params);
 
         try {
-            if (!StringUtils.hasText(rval.getAvatarUrl())) {
-                rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+            if (rval!= null) {
+                if (!StringUtils.hasText(rval.getAvatarUrl())) {
+                    rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+                }
+
+                if (rval.getAvatarUrl().contains("google") && rval.getAvatarUrl().contains("?sz=")) {
+                    rval.setAvatarUrl(rval.getAvatarUrl().substring(0, rval.getAvatarUrl().indexOf("?sz=")));
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -92,9 +105,16 @@ public class Dao implements InitializingBean {
     public Player getByEmail(String email) {
         Player rval = (Player)sqlMapClientTemplate.queryForObject("sql.getByEmail", email);
         try {
-            if (!StringUtils.hasText(rval.getAvatarUrl())) {
-                rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+            if (rval != null) {
+                if (!StringUtils.hasText(rval.getAvatarUrl())) {
+                    rval.setAvatarUrl(Util.getAvatarUrlFromEmail(rval.getEmail()));
+                }
+
+                if (rval.getAvatarUrl().contains("google") && rval.getAvatarUrl().contains("?sz=")) {
+                    rval.setAvatarUrl(rval.getAvatarUrl().substring(0, rval.getAvatarUrl().indexOf("?sz=")));
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -110,6 +130,11 @@ public class Dao implements InitializingBean {
                 if (!StringUtils.hasText(p.getAvatarUrl())) {
                     p.setAvatarUrl(Util.getAvatarUrlFromEmail(p.getEmail()));
                 }
+
+                if (p.getAvatarUrl().contains("google") && p.getAvatarUrl().contains("?sz=")) {
+                    p.setAvatarUrl(p.getAvatarUrl().substring(0, p.getAvatarUrl().indexOf("?sz=")));
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -137,7 +162,14 @@ public class Dao implements InitializingBean {
         //will want to know who player 1 is
         for (Match m : matches) {
             if (!StringUtils.hasText(m.getP1().getAvatarUrl())) {
-                m.getP1().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP1().getEmail()));
+
+                if (!StringUtils.hasText(m.getP1().getAvatarUrl())) {
+                    m.getP1().setAvatarUrl(Util.getAvatarUrlFromEmail(m.getP1().getEmail()));
+                }
+
+                if (m.getP1().getAvatarUrl().contains("google") && m.getP1().getAvatarUrl().contains("?sz=")) {
+                    m.getP1().setAvatarUrl(m.getP1().getAvatarUrl().substring(0, m.getP1().getAvatarUrl().indexOf("?sz=")));
+                }
             }
         }
         return matches;

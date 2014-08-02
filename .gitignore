@@ -2,3 +2,7 @@
 *server/target*
 .DS*
 *.iml
+.idea*
+android/HoloGraphLibrary/gen*
+android/lotp/src/main/gen*
+android/lotp/src/main/res/values/com_crashlytics_export_strings.xml
