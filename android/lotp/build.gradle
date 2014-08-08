@@ -3,10 +3,10 @@ apply plugin: 'crashlytics'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 19
     }
     repositories {
@@ -46,8 +46,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v13:+'
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v13:20.+'
+    compile 'com.android.support:support-v4:20.0.0'
     compile 'com.squareup.retrofit:retrofit:+'
     compile 'com.squareup.picasso:picasso:+'
     compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'

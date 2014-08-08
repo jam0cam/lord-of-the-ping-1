@@ -24,7 +24,7 @@ public class PingPongApplication extends Application {
         super.onCreate();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setServer(PingPongService.SERVER)
+                .setEndpoint(PingPongService.SERVER)
                 .build();
 
         mPingPongService = restAdapter.create(PingPongService.class);
